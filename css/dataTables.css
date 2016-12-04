@@ -1,0 +1,12 @@
+td.details-control {
+    cursor: pointer;
+    text-align: center;
+}
+
+td.details-control > span {
+    color: #337ab7;
+}
+
+td.details-center {
+    text-align: center;
+}

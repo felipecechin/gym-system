@@ -1,0 +1,142 @@
+body{
+    margin: 0px;
+    font-family: Verdana;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #2D8CB7;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px 18px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #2D79BB;
+}
+#sair{
+    float: right;
+}
+.input-senha {
+    position:absolute;
+    top:2px; 
+    right:0;
+    border:none;
+    background:transparent;
+    outline:none;
+}
+
+.input-email {
+    position:absolute;
+    top:0; right:0;
+    z-index:10;
+    border:none;
+    background:transparent;
+    outline:none;
+}
+
+.linha-input {
+    position: relative;
+    width: 300px;
+    padding-bottom: 10px;
+    text-align: left;
+}
+
+.linha-input input {
+    width: 100%;
+    height: 30px;
+    padding-left: 5px;
+}
+
+#div-login{
+    background: #D9D9D9;
+    width: 600px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    border-radius: 10px;
+}
+
+#titulo-txt{
+    color: #2D8CB7;
+}
+
+#btn-entrar{
+    background: #2D8CB7;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 0px;
+}
+
+#btn-limpar{
+    background: #D2DEEF;
+    color: black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 0px;
+}
+
+#lembrar-txt{
+    font-size: 12pt;
+    color: #2D8CB7;
+}
+
+#check{
+    height: 20px;
+    width: 20px;
+}
+
+#esqueci-txt{
+    color: #2D8CB7;
+    text-decoration: none;
+    font-size: 11pt;
+}
+.inpt{
+    height: 22px;
+    width: 200px;
+    padding-left: 5px;
+}
+#tbl-cadastro-cliente{
+    font-size: 11pt;
+}
+.div-cliente{
+    border: 1px solid #2D79BB;
+    width: 1000px;
+}
+#div-cadastro-treino{
+    border: 1px solid #2D79BB;
+    width: 1000px;
+}
+#breadcrumbs{
+    padding: 5px;
+    background: #D2DEEF;
+    text-align: left;
+}
+#treino-pessoa{
+    width: 1000px;
+    text-align: left;
+}
+#erro {
+    width:210px;
+    margin:auto;
+    background-color: red;
+    text-align:center;
+    border-radius: 1em;
+    color: white;
+}

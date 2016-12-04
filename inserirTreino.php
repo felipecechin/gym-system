@@ -1,9 +1,27 @@
 <?php
 require_once './functions.php';
+require_once './Class/conexao.class.php';
+require_once './Class/insert.class.php';
+require_once './Class/select.class.php';
+require_once './Class/update.class.php';
+require_once './Class/delete.class.php';
+require_once './Class/aluno.class.php';
+require_once './Class/instrutor.class.php';
+require_once './Class/exerc_treino.class.php';
+require_once './Class/treino.class.php';
+require_once './Class/exercicio.class.php';
 protection();
 if (isset($_SESSION)) {
     if ($_SESSION['tipoUsuario'] == 2) {
         header('location:verTreino.php');
+    }
+}
+if ($_GET) {
+    $codigo = $_GET['c'];
+    $_SESSION['codigo'] = $codigo;
+} else {
+    if (!isset($_SESSION['codigo'])) {
+        header('location:cliente.php');
     }
 }
 ?>
@@ -71,15 +89,15 @@ if (isset($_SESSION)) {
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Número repetições:</td>' +
-                                    '<td><input type="number" placeholder="Número de repetições" class="inpt"></td>' +
+                                    '<td><input type="number" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Número séries:</td>' +
-                                    '<td><input type="number" placeholder="Número de séries" class="inpt"></td>' +
+                                    '<td><input type="number" placeholder="Número de séries" class="inpt" name="series' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Carga:</td>' +
-                                    '<td><input type="number" placeholder="Carga" class="inpt"></td>' +
+                                    '<td><input type="number" placeholder="Carga" class="inpt" name="carga' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<table>';
                         } else {
@@ -91,15 +109,15 @@ if (isset($_SESSION)) {
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Número repetições:</td>' +
-                                    '<td><input type="number" placeholder="Número de repetições" class="inpt"></td>' +
+                                    '<td><input type="number" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Número séries:</td>' +
-                                    '<td><input type="number" placeholder="Número de séries" class="inpt"></td>' +
+                                    '<td><input type="number" placeholder="Número de séries" class="inpt" name="series' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Carga:</td>' +
-                                    '<td><input type="number" placeholder="Carga" class="inpt"></td>' +
+                                    '<td><input type="number" placeholder="Carga" class="inpt" name="carga' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<table>';
                             ;
@@ -120,14 +138,20 @@ if (isset($_SESSION)) {
     <center>
         <br>
         <div id="div-cadastro-treino">
-            <div id="breadcrumbs">Cliente > Felipe Cechin</div>
-            <form>
+            <?php
+            $aluno = new aluno();
+            $resultado = $aluno->buscarAluno('codigo', $_SESSION['codigo']);
+            $nome = $aluno->__get('nome');
+            ?>
+            <div id="breadcrumbs">Cliente > <?php echo $nome[0]; ?></div>
+            <form action="inserirTreino.php" method="post">
                 <h1 id="titulo-txt">Inserir Treino</h1>
                 <table cellspacing="10" id="tbl-cadastro-cliente">
                     <tr>
                         <td>Número de treinos:</td>
                         <td>
-                            <input type="number" name="tipo" class="inpt" placeholder="Número de treinos" onkeyup="adicionaForm(this.value)">                      
+                            <input type="number" name="numTreinos" class="inpt" placeholder="Número de treinos" onkeyup="adicionaForm(this.value)"> 
+                            <input type="hidden" name="codigo" value="<?php echo $_SESSION['codigo']; ?>">
                         </td>
                     </tr>
                     <tr>
@@ -137,7 +161,8 @@ if (isset($_SESSION)) {
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: right">
-                            <input type="reset" value="Limpar" id="btn-limpar"> <input type="submit" value="Salvar" id="btn-entrar">
+                            <input type="reset" value="Limpar" id="btn-limpar"> 
+                            <input type="submit" value="Salvar" id="btn-entrar">
                         </td>
                     </tr>
                 </table>
@@ -145,7 +170,16 @@ if (isset($_SESSION)) {
         </div>
     </center>
     <?php
-    // put your code here
+    if ($_POST) {
+        $numTreinos = $_POST['numTreinos'];
+        $codigo = $_POST['codigo'];
+
+        for ($i = 0; $i < $numTreinos; $i++) {
+            $treino = new treino();
+            $numT = $i + 1;
+            $treino->adicionarTreino($numT, $codigo, null);
+        }
+    }
     ?>
 </body>
 </html>

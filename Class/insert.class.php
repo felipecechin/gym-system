@@ -6,7 +6,6 @@
  * and open the template in the editor.
  */
 
-
 class insert extends conexao {
 
     private $tabela;

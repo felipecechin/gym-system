@@ -1,5 +1,15 @@
 <?php
 require_once './functions.php';
+require_once './Class/conexao.class.php';
+require_once './Class/insert.class.php';
+require_once './Class/select.class.php';
+require_once './Class/update.class.php';
+require_once './Class/delete.class.php';
+require_once './Class/aluno.class.php';
+require_once './Class/instrutor.class.php';
+require_once './Class/exerc_treino.class.php';
+require_once './Class/treino.class.php';
+require_once './Class/exercicio.class.php';
 protection();
 if (isset($_SESSION)) {
     if ($_SESSION['tipoUsuario'] == 2) {
@@ -19,12 +29,15 @@ if (isset($_SESSION)) {
         <script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
         <script type="text/javascript" src="js/jquery-1.12.0.min.js"></script>
         <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+        <script src="js/jquery.maskedinput.js"></script>
 
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#example').DataTable({
                     "columnDefs": [{"targets": 7, "orderable": false, "searchable": false, "width": "6%"}]
                 });
+                $('#dataNasc').mask('99/99/9999');
+                $('#altura').mask('9.99');
             });
         </script>
     </head>
@@ -61,7 +74,7 @@ if (isset($_SESSION)) {
                     </tr>
                     <tr>
                         <td>Altura:</td>
-                        <td><input type="text" placeholder="Altura" class="inpt" name="altura"></td>
+                        <td><input type="text" placeholder="Altura" class="inpt" name="altura" id="altura"></td>
                     </tr>
                     <tr>
                         <td>Frequência:</td>
@@ -69,7 +82,7 @@ if (isset($_SESSION)) {
                     </tr>
                     <tr>
                         <td>Nascimento:</td>
-                        <td><input type="date" placeholder="Data de nascimento" class="inpt" name="dataNasc"></td>
+                        <td><input type="text" placeholder="Data (dd/mm/aaaa)" class="inpt" name="dataNasc" id="dataNasc"></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -79,18 +92,6 @@ if (isset($_SESSION)) {
             </form>
             <?php
             if ($_POST) {
-                require_once './Class/conexao.class.php';
-                require_once './Class/insert.class.php';
-                require_once './Class/select.class.php';
-                require_once './Class/update.class.php';
-                require_once './Class/delete.class.php';
-                require_once './Class/aluno.class.php';
-                require_once './Class/instrutor.class.php';
-                require_once './Class/exerc_treino.class.php';
-                require_once './Class/treino.class.php';
-                require_once './Class/exercicio.class.php';
-
-
                 $nome = $_POST['nome'];
                 $cpf = $_POST['cpf'];
                 $genero = $_POST['genero'];
@@ -100,8 +101,16 @@ if (isset($_SESSION)) {
                 $dataNasc = $_POST['dataNasc'];
                 $frequencia = $_POST['frequencia'];
 
+
+                $divide = explode('/', $dataNasc);
+                $dia = $divide[0];
+                $mes = $divide[1];
+                $ano = $divide[2];
+                $dataNasc2 = $ano . '-' . $mes . '-' . $dia;
+
                 $aluno = new aluno();
-                if ($aluno->cadastrarAluno($nome, $cpf, $dataNasc, $genero, $altura, $biotipo, $frequencia, $codigo)) {
+
+                if ($aluno->cadastrarAluno($nome, $cpf, $dataNasc2, $genero, $altura, $biotipo, $frequencia, $codigo)) {
                     echo 'Aluno cadastrado com sucesso!';
                     echo '<br>';
                     echo 'O código do aluno cadastrado é <b>' . $codigo . '</b>.';
@@ -131,40 +140,43 @@ if (isset($_SESSION)) {
                     </thead>
                     <tbody>
                         <?php
-                        require_once './Class/conexao.class.php';
-                        require_once './Class/insert.class.php';
-                        require_once './Class/select.class.php';
-                        require_once './Class/update.class.php';
-                        require_once './Class/delete.class.php';
-                        require_once './Class/aluno.class.php';
-                        require_once './Class/instrutor.class.php';
-                        require_once './Class/exerc_treino.class.php';
-                        require_once './Class/treino.class.php';
-                        require_once './Class/exercicio.class.php';
-
                         $aluno = new aluno();
-                        var_dump($aluno->buscarAluno('SELECT * FROM aluno', null));
+                        $resultado = $aluno->buscarAluno('todos', null);
+
+                        $nome = $aluno->__get('nome');
+                        $cpf = $aluno->__get('cpf');
+                        $dataNasc = $aluno->__get('dataNasc');
+                        $genero = $aluno->__get('genero');
+                        $altura = $aluno->__get('altura');
+                        $biotipo = $aluno->__get('biotipo');
+                        $frequencia = $aluno->__get('frequenciaSem');
+                        $codigo = $aluno->__get('codigo');
+
+                        for ($i = 0; $i < count($nome); $i++) {
+                            ?>
+                            <tr style="background-color: #D2DEEA !important;">
+                                <td style="border: 0.5px solid white !important;"><?php echo $nome[$i]; ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo $cpf[$i]; ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo ($genero[$i] == 'M') ? 'Masculino' : 'Feminino'; ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo $biotipo[$i]; ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo number_format($altura[$i], 2, '.', ','); ?></td>
+                                <?php
+                                $divide = explode('-', $dataNasc[$i]);
+                                $dia = $divide[2];
+                                $mes = $divide[1];
+                                $ano = $divide[0];
+                                $data = $dia . '/' . $mes . '/' . $ano;
+                                ?>
+                                <td style="border: 0.5px solid white !important;"><?php echo $data; ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo $frequencia[$i]; ?></td>
+                                <td style="border: 0.5px solid white !important;">
+                                    <a href="inserirTreino.php?c=<?php echo $codigo[$i]; ?>"><img src="img/mais-icon.png" style="height: 20px;"></a>
+                                    <a href="verTreino.php?c=<?php echo $codigo[$i]; ?>"><img src="img/ver-icon.png" style="height: 25px;"></a>
+                                </td>
+                            </tr>
+                            <?php
+                        }
                         ?>
-                        <tr style="background-color: #D2DEEA !important;">
-                            <td style="border: 0.5px solid white !important;">Felipe Cechin</td>
-                            <td style="border: 0.5px solid white !important;">111.222.333-44</td>
-                            <td style="border: 0.5px solid white !important;">Masculino</td>
-                            <td style="border: 0.5px solid white !important;">4</td>
-                            <td style="border: 0.5px solid white !important;">4</td>
-                            <td style="border: 0.5px solid white !important;">4</td>
-                            <td style="border: 0.5px solid white !important;">4</td>
-                            <td style="border: 0.5px solid white !important;"><a href="inserirTreino.php"><img src="img/mais-icon.png" style="height: 20px;"></a><a href="verTreino.php"><img src="img/ver-icon.png" style="height: 25px;"></a><a href="#"><img src="img/excluir-icon.png"style="height: 20px;"></a></td>
-                        </tr>
-                        <tr style="background-color: #D2DEEA !important;">
-                            <td style="border: 0.5px solid white !important;">Fernando Garcia</td>
-                            <td style="border: 0.5px solid white !important;">555.666.777-88</td>
-                            <td style="border: 0.5px solid white !important;">Masculino</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                            <td style="border: 0.5px solid white !important;"><a href="inserirTreino.php"><img src="img/mais-icon.png" style="height: 20px;"></a><a href="verTreino.php"><img src="img/ver-icon.png" style="height: 25px;"></a><a href="#"><img src="img/excluir-icon.png"style="height: 20px;"></a></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

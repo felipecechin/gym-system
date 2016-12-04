@@ -1,6 +1,19 @@
 <?php
 require_once './functions.php';
+require_once './Class/conexao.class.php';
+require_once './Class/insert.class.php';
+require_once './Class/select.class.php';
+require_once './Class/update.class.php';
+require_once './Class/delete.class.php';
+require_once './Class/aluno.class.php';
+require_once './Class/instrutor.class.php';
+require_once './Class/exerc_treino.class.php';
+require_once './Class/treino.class.php';
+require_once './Class/exercicio.class.php';
 protection();
+if ($_GET) {
+    $codigo = $_GET['c'];
+}
 ?>
 <html>
     <head>
@@ -33,7 +46,7 @@ protection();
                     <li><a href="cliente.php">Clientes</a></li>
                     <?php
                 } else {
-                    echo '<li><a href="">Olá,' . $_SESSION['nomeAluno'] . '</a></li>';
+                    echo '<li><a href="">Olá, ' . $_SESSION['nomeAluno'] . '!</a></li>';
                 }
             }
             ?>
@@ -41,7 +54,16 @@ protection();
         </ul>
     <center>
         <div id="treino-pessoa">
-            <p style="font-size: 16pt;">Treino de Felipe Cechin</p>
+            <?php
+            if (isset($codigo)) {
+                $aluno = new aluno();
+                $resultado = $aluno->buscarAluno('codigo', $codigo);
+                $nome = $aluno->__get('nome');
+                echo '<p style="font-size: 16pt;">Treino de ' . $nome[0] . '</p>';
+            } else {
+                echo '<p style="font-size: 16pt;">Treino de ' . $_SESSION['nomeAluno'] . '</p>';
+            }
+            ?>
         </div>
         <div class="div-cliente">
             <div id="breadcrumbs">Treino A<a href="" style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a></div>

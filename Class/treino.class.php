@@ -27,7 +27,6 @@ class treino {
         $dados = ['nome' => $nome, 'aluno' => $aluno, 'objetivo' => $objetivo];
         $insert = new insert();
         $insert->doInsert('treino', $dados);
-        var_dump($insert);
     }
 
     function excluirTreino($id) {

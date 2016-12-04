@@ -39,7 +39,7 @@ class aluno {
         $dados = ['nome' => $nome, 'cpf' => $cpf, 'dataNasc' => $dataNasc, 'genero' => $genero, 'altura' => $altura, 'biotipo' => $biotipo, 'frequenciaSem' => $frequenciaSem, 'codigo' => $codigo];
         $insert = new insert();
         $insert->doInsert('aluno', $dados);
-        return TRUE;
+        return true;
     }
 
     function buscarAluno($tipo, $valor) {
@@ -84,6 +84,11 @@ class aluno {
                     $dados = 'codigo=' . $valor;
                     break;
                 }
+            case 'todos': {
+                    $termos = 'ORDER BY nome ASC';
+                    $dados = $valor;
+                    break;
+                }
             default: {
                     $query = $tipo;
                     $dados = $valor;
@@ -95,26 +100,15 @@ class aluno {
             return $select->doSelectManual($query, $dados);
         } else {
             $resultado = $select->doSelect('aluno', $termos, $dados);
-            if (count($resultado) == 1) {
-                $this->nome = $resultado[0]['nome'];
-                $this->cpf = $resultado[0]['cpf'];
-                $this->dataNasc = $resultado[0]['dataNasc'];
-                $this->genero = $resultado[0]['genero'];
-                $this->altura = $resultado[0]['altura'];
-                $this->biotipo = $resultado[0]['biotipo'];
-                $this->frequenciaSem = $resultado[0]['frequenciaSem'];
-                $this->codigo = $resultado[0]['codigo'];
-            } else {
-                foreach ($resultado as $valor) {
-                    $this->nome[] = $valor['nome'];
-                    $this->cpf[] = $valor['cpf'];
-                    $this->dataNasc[] = $valor['dataNasc'];
-                    $this->genero[] = $valor['genero'];
-                    $this->altura[] = $valor['altura'];
-                    $this->biotipo[] = $valor['biotipo'];
-                    $this->frequenciaSem[] = $valor['frequenciaSem'];
-                    $this->codigo[] = $valor['codigo'];
-                }
+            foreach ($resultado as $valor) {
+                $this->nome[] = $valor['nome'];
+                $this->cpf[] = $valor['cpf'];
+                $this->dataNasc[] = $valor['dataNasc'];
+                $this->genero[] = $valor['genero'];
+                $this->altura[] = $valor['altura'];
+                $this->biotipo[] = $valor['biotipo'];
+                $this->frequenciaSem[] = $valor['frequenciaSem'];
+                $this->codigo[] = $valor['codigo'];
             }
         }
     }

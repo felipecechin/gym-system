@@ -67,18 +67,24 @@ and open the template in the editor.
                 $aluno->buscarAluno('codigo', $login);
                 $senha3 = $aluno->__get('dataNasc');
                 $nomeAluno = $aluno->__get('nome');
-                $senha4 = str_replace("-", "", $senha3);
-                if (!empty($senha2) || !empty($senha4)) {
+                if (!empty($senha3[0])) {
+                    $divide = explode("-", $senha3[0]);
+                    $dia = $divide[2];
+                    $mes = $divide[1];
+                    $ano = $divide[0];
+                    $senha4 = $dia . $mes . $ano;
+                }
+                if (!empty($senha2) || !empty($senha3[0])) {
                     $hash = $senha2;
                     if (crypt($senha, $hash) === $hash) {
                         header('location:inicio.php');
                         session_start();
                         $_SESSION['tipoUsuario'] = '1';
-                    } else if ($senha == $senha4) {
+                    } else if (isset($senha4) && $senha == $senha4) {
                         header('location:verTreino.php');
                         session_start();
                         $_SESSION['tipoUsuario'] = '2';
-                        $_SESSION['nomeAluno'] = $nomeAluno;
+                        $_SESSION['nomeAluno'] = $nomeAluno[0];
                     } else {
                         echo '<div id="erro">Senha inválida</div>';
                     }

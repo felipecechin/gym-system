@@ -112,6 +112,10 @@ if ($_GET) {
                                     '</td>' +
                                     '</tr>' +
                                     '<tr>' +
+                                    '<td>Nome:</td>' +
+                                    '<td><input type="text" placeholder="Nome" class="inpt" name="nome' + numTreino + '[]"></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
                                     '<td>Número repetições:</td>' +
                                     '<td><input type="number" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
                                     '</tr>' +
@@ -176,19 +180,23 @@ if ($_GET) {
     <?php
     if ($_POST) {
         $numTreinos = $_POST['numTreinos'];
-        $codigo = $_POST['codigo'];
-
+        $codigo = $_POST['codigo'];        
+        
         for ($i = 0; $i < $numTreinos; $i++) {
             $treino = new treino();
             $numT = $i + 1;
-            $idTreino = $treino->adicionarTreino($numT, $codigo, null);
+            $idTreino[$i] = $treino->adicionarTreino($numT, $codigo, null);
             $exercTreinoRep[$i] = $_POST['rep' . $numT];
             $exercTreinoSer[$i] = $_POST['series' . $numT];
             $exercTreinoCarga[$i] = $_POST['carga' . $numT];
             $exercTreinoNome[$i] = $_POST['nome' . $numT];
         }
-        var_dump($exercTreinoCarga);
-        var_dump($exercTreinoRep);
+        for ($i = 0; $i < count($idTreino); $i++) {
+            for ($j = 0; $j < count($exercTreinoNome[$i]); $j++) {
+                $exercTreino = new exerc_treino();
+                $exercTreino->adicionarExercTreino($exercTreinoNome[$i][$j], $idTreino[$i], $exercTreinoSer[$i][$j], $exercTreinoRep[$i][$j], $exercTreinoCarga[$i][$j], null, null);
+            }
+        }
     }
     ?>
 </body>

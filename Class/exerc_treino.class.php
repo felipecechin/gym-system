@@ -38,7 +38,6 @@ class exerc_treino {
         $dados = ['exercicio' => $exercicio, 'treino' => $treino, 'series' => $series, 'repeticoes' => $repeticoes, 'carga' => $carga, 'tempo' => $tempo, 'equipamento' => $equipamento];
         $insert = new insert();
         $insert->doInsert('exerc_treino', $dados);
-        var_dump($insert);
     }
 
     function buscarExercTreino($tipo, $valor) {

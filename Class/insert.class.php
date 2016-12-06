@@ -13,13 +13,18 @@ class insert extends conexao {
     private $insert;
     private $query;
     private $conexao;
+    private $ultimoId;
 
-    public function doInsert($tabela, array $dados) {
+    public function doInsert($tabela, array $dados, $ultimoId = false) {
         $this->tabela = (string) $tabela;
         $this->dados = $dados;
 
         $this->getSintaxe();
-        $this->executar();
+        if ($ultimoId) {
+            return $this->executar($ultimoId);
+        } else {
+            $this->executar();
+        }
     }
 
     private function conectando() {
@@ -32,11 +37,15 @@ class insert extends conexao {
         $this->query = "INSERT INTO $this->tabela ($campos) VALUES ($valores)";
     }
 
-    private function executar() {
+    private function executar($ultimoId = false) {
         try {
             $this->conectando();
             $this->insert = $this->conexao->prepare($this->query);
             $this->insert->execute($this->dados);
+            if ($ultimoId) {
+                $conn = $this->conexao;
+                return $this->ultimoId = $conn->lastInsertId();
+            }
         } catch (Exception $e) {
             echo 'Erro - ' . $e->getMessage();
         }

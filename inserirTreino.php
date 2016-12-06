@@ -88,6 +88,10 @@ if ($_GET) {
                                     '</td>' +
                                     '</tr>' +
                                     '<tr>' +
+                                    '<td>Nome:</td>' +
+                                    '<td><input type="text" placeholder="Nome" class="inpt" name="nome' + numTreino + '[]"></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
                                     '<td>Número repetições:</td>' +
                                     '<td><input type="number" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
                                     '</tr>' +
@@ -177,8 +181,14 @@ if ($_GET) {
         for ($i = 0; $i < $numTreinos; $i++) {
             $treino = new treino();
             $numT = $i + 1;
-            $treino->adicionarTreino($numT, $codigo, null);
+            $idTreino = $treino->adicionarTreino($numT, $codigo, null);
+            $exercTreinoRep[$i] = $_POST['rep' . $numT];
+            $exercTreinoSer[$i] = $_POST['series' . $numT];
+            $exercTreinoCarga[$i] = $_POST['carga' . $numT];
+            $exercTreinoNome[$i] = $_POST['nome' . $numT];
         }
+        var_dump($exercTreinoCarga);
+        var_dump($exercTreinoRep);
     }
     ?>
 </body>

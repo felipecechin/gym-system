@@ -9,7 +9,6 @@ require_once './Class/aluno.class.php';
 require_once './Class/instrutor.class.php';
 require_once './Class/exerc_treino.class.php';
 require_once './Class/treino.class.php';
-require_once './Class/exercicio.class.php';
 protection();
 if (isset($_SESSION)) {
     if ($_SESSION['tipoUsuario'] == 2) {
@@ -101,7 +100,16 @@ if (isset($_SESSION)) {
                 $dataNasc = $_POST['dataNasc'];
                 $frequencia = $_POST['frequencia'];
 
-
+                $aluno = new aluno();
+                $aluno->buscarAluno('codigo', $codigo);
+                $codigoBanco = $aluno->__get('codigo');
+                while (!empty($codigoBanco[0])) {
+                    $codigo = rand(100000, 999999);
+                    $aluno = new aluno();
+                    $aluno->buscarAluno('codigo', $codigo);
+                    $codigoBanco = $aluno->__get('codigo');
+                }
+                
                 $divide = explode('/', $dataNasc);
                 $dia = $divide[0];
                 $mes = $divide[1];

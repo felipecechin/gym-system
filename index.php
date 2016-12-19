@@ -55,7 +55,6 @@ and open the template in the editor.
                 require_once './Class/instrutor.class.php';
                 require_once './Class/exerc_treino.class.php';
                 require_once './Class/treino.class.php';
-                require_once './Class/exercicio.class.php';
                 $login = $_POST['login'];
                 $senha = $_POST['senha'];
 

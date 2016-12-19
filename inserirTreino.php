@@ -9,7 +9,6 @@ require_once './Class/aluno.class.php';
 require_once './Class/instrutor.class.php';
 require_once './Class/exerc_treino.class.php';
 require_once './Class/treino.class.php';
-require_once './Class/exercicio.class.php';
 protection();
 if (isset($_SESSION)) {
     if ($_SESSION['tipoUsuario'] == 2) {

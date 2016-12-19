@@ -68,26 +68,15 @@ class exerc_treino {
             return $select->doSelectManual($query, $dados);
         } else {
             $resultado = $select->doSelect('exerc_treino', $termos, $dados);
-            if (count($resultado) == 1) {
-                $this->exercicio = $resultado[0]['exercicio'];
-                $this->treino = $resultado[0]['treino'];
-                $this->series = $resultado[0]['series'];
-                $this->repeticoes = $resultado[0]['repeticoes'];
-                $this->carga = $resultado[0]['carga'];
-                $this->tempo = $resultado[0]['tempo'];
-                $this->equipamento = $resultado[0]['equipamento'];
-                $this->id = $resultado[0]['id'];
-            } else {
-                foreach ($resultado as $valor) {
-                    $this->exercicio[] = $valor['exercicio'];
-                    $this->treino[] = $valor['treino'];
-                    $this->series[] = $valor['series'];
-                    $this->repeticoes[] = $valor['repeticoes'];
-                    $this->carga[] = $valor['carga'];
-                    $this->tempo[] = $valor['tempo'];
-                    $this->equipamento[] = $valor['equipamento'];
-                    $this->id[] = $valor['id'];
-                }
+            foreach ($resultado as $valor) {
+                $this->exercicio[] = $valor['exercicio'];
+                $this->treino[] = $valor['treino'];
+                $this->series[] = $valor['series'];
+                $this->repeticoes[] = $valor['repeticoes'];
+                $this->carga[] = $valor['carga'];
+                $this->tempo[] = $valor['tempo'];
+                $this->equipamento[] = $valor['equipamento'];
+                $this->id[] = $valor['id'];
             }
         }
     }

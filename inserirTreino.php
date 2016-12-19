@@ -41,8 +41,16 @@ if ($_GET) {
                         if (i == 0) {
                             inputNtreino = '<div style="border: 1px solid #2D79BB;"><table>' +
                                     '<tr>' +
-                                    '<td>Número de exercícios do treino ' + (i + 1) + ':</td>' +
-                                    '<td><input type="text" placeholder="Número de Exercícios" class="inpt" onkeyup="mostraInputsExercicios(this.value, ' + (i + 1) + ')"></td>' +
+                                    '<td>Nome do treino (' + (i + 1) + '):</td>' +
+                                    '<td><input type="text" placeholder="Exemplo: A" class="inpt" name="nomeT' + (i + 1) + '" required=""></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                    '<td>Objetivo do treino (' + (i + 1) + '):</td>' +
+                                    '<td><input type="text" placeholder="Exemplo: Hipertrofia" class="inpt" name="objetivoT' + (i + 1) + '" required=""></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                    '<td>Número de exercícios do treino (' + (i + 1) + '):</td>' +
+                                    '<td><input type="text" placeholder="Número de Exercícios" class="inpt" onkeyup="mostraInputsExercicios(this.value, ' + (i + 1) + ')" required=""></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td colspan="2" style="text-align: center;">' +
@@ -54,8 +62,16 @@ if ($_GET) {
                         } else {
                             inputNtreino = inputNtreino + '<div style="border: 1px solid #2D79BB;"><table>' +
                                     '<tr>' +
-                                    '<td>Número de exercícios do treino ' + (i + 1) + ':</td>' +
-                                    '<td><input type="text" placeholder="Número de Exercícios" class="inpt" onkeyup="mostraInputsExercicios(this.value, ' + (i + 1) + ')"></td>' +
+                                    '<td>Nome do treino (' + (i + 1) + '):</td>' +
+                                    '<td><input type="text" placeholder="Exemplo: A" class="inpt" name="nomeT' + (i + 1) + '" required=""></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                    '<td>Objetivo do treino (' + (i + 1) + '):</td>' +
+                                    '<td><input type="text" placeholder="Exemplo: Hipertrofia" class="inpt" name="objetivoT' + (i + 1) + '" required=""></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                    '<td>Número de exercícios do treino (' + (i + 1) + '):</td>' +
+                                    '<td><input type="text" placeholder="Número de Exercícios" class="inpt" onkeyup="mostraInputsExercicios(this.value, ' + (i + 1) + ')" required=""></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td colspan="2" style="text-align: center;">' +
@@ -64,7 +80,6 @@ if ($_GET) {
                                     '</td>' +
                                     '</tr>' +
                                     '<table></div>';
-                            ;
                         }
                     }
                     var div = document.getElementById("form1");
@@ -83,48 +98,64 @@ if ($_GET) {
                             inputs = '<table>' +
                                     '<tr>' +
                                     '<td colspan="2" style="text-align: center;">' +
-                                    '<h3>Exercício ' + (i + 1) + ' do treino ' + numTreino + '</h3>' +
+                                    '<h3>Exercício ' + (i + 1) + ' do treino (' + numTreino + ')</h3>' +
                                     '</td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Nome:</td>' +
-                                    '<td><input type="text" placeholder="Nome" class="inpt" name="nome' + numTreino + '[]"></td>' +
+                                    '<td><input type="text" placeholder="Nome" class="inpt" name="nome' + numTreino + '[]" required=""></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Número repetições:</td>' +
-                                    '<td><input type="number" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
+                                    '<td><input type="text" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Número séries:</td>' +
-                                    '<td><input type="number" placeholder="Número de séries" class="inpt" name="series' + numTreino + '[]"></td>' +
+                                    '<td><input type="text" placeholder="Número de séries" class="inpt" name="series' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Carga:</td>' +
-                                    '<td><input type="number" placeholder="Carga" class="inpt" name="carga' + numTreino + '[]"></td>' +
+                                    '<td><input type="text" placeholder="Carga" class="inpt" name="carga' + numTreino + '[]"></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                    '<td>Tempo:</td>' +
+                                    '<td><input type="text" placeholder="Tempo" class="inpt" name="tempo' + numTreino + '[]"></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                    '<td>Equipamento:</td>' +
+                                    '<td><input type="text" placeholder="Equipamento" class="inpt" name="equip' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<table>';
                         } else {
                             inputs = inputs + '<table>' +
                                     '<tr>' +
                                     '<td colspan="2" style="text-align: center;">' +
-                                    '<h3>Exercício ' + (i + 1) + ' do treino ' + numTreino + '</h3>' +
+                                    '<h3>Exercício ' + (i + 1) + ' do treino (' + numTreino + ')</h3>' +
                                     '</td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Nome:</td>' +
-                                    '<td><input type="text" placeholder="Nome" class="inpt" name="nome' + numTreino + '[]"></td>' +
+                                    '<td><input type="text" placeholder="Nome" class="inpt" name="nome' + numTreino + '[]" required=""></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Número repetições:</td>' +
-                                    '<td><input type="number" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
+                                    '<td><input type="text" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Número séries:</td>' +
-                                    '<td><input type="number" placeholder="Número de séries" class="inpt" name="series' + numTreino + '[]"></td>' +
+                                    '<td><input type="text" placeholder="Número de séries" class="inpt" name="series' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>Carga:</td>' +
-                                    '<td><input type="number" placeholder="Carga" class="inpt" name="carga' + numTreino + '[]"></td>' +
+                                    '<td><input type="text" placeholder="Carga" class="inpt" name="carga' + numTreino + '[]"></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                    '<td>Tempo:</td>' +
+                                    '<td><input type="text" placeholder="Tempo" class="inpt" name="tempo' + numTreino + '[]"></td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                    '<td>Equipamento:</td>' +
+                                    '<td><input type="text" placeholder="Equipamento" class="inpt" name="equip' + numTreino + '[]"></td>' +
                                     '</tr>' +
                                     '<table>';
                             ;
@@ -179,21 +210,25 @@ if ($_GET) {
     <?php
     if ($_POST) {
         $numTreinos = $_POST['numTreinos'];
-        $codigo = $_POST['codigo'];        
-        
+        $codigo = $_POST['codigo'];
+
         for ($i = 0; $i < $numTreinos; $i++) {
             $treino = new treino();
             $numT = $i + 1;
-            $idTreino[$i] = $treino->adicionarTreino($numT, $codigo, null);
+            $nomeT = $_POST['nomeT' . $numT];
+            $objetivoT = $_POST['objetivoT' . $numT];
+            $idTreino[$i] = $treino->adicionarTreino($nomeT, $codigo, $objetivoT);
             $exercTreinoRep[$i] = $_POST['rep' . $numT];
             $exercTreinoSer[$i] = $_POST['series' . $numT];
             $exercTreinoCarga[$i] = $_POST['carga' . $numT];
             $exercTreinoNome[$i] = $_POST['nome' . $numT];
+            $exercTreinoTempo[$i] = $_POST['tempo' . $numT];
+            $exercTreinoEquip[$i] = $_POST['equip' . $numT];
         }
         for ($i = 0; $i < count($idTreino); $i++) {
             for ($j = 0; $j < count($exercTreinoNome[$i]); $j++) {
                 $exercTreino = new exerc_treino();
-                $exercTreino->adicionarExercTreino($exercTreinoNome[$i][$j], $idTreino[$i], $exercTreinoSer[$i][$j], $exercTreinoRep[$i][$j], $exercTreinoCarga[$i][$j], null, null);
+                $exercTreino->adicionarExercTreino($exercTreinoNome[$i][$j], $idTreino[$i], $exercTreinoSer[$i][$j], $exercTreinoRep[$i][$j], $exercTreinoCarga[$i][$j],$exercTreinoTempo[$i][$j], $exercTreinoEquip[$i][$j]);
             }
         }
     }

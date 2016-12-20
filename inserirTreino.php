@@ -180,8 +180,17 @@ if ($_GET) {
             $aluno = new aluno();
             $resultado = $aluno->buscarAluno('codigo', $_SESSION['codigo']);
             $nome = $aluno->__get('nome');
+            $treino = new treino();
+            $treino->buscarTreino('aluno', $_SESSION['codigo']);
+            $nomeTreino = $treino->__get('nome');
             ?>
-            <div id="breadcrumbs">Cliente > <?php echo $nome[0]; ?></div>
+            <div id="breadcrumbs">Cliente > <?php echo $nome[0]; ?>
+                <?php
+                if (!empty($nomeTreino)) {
+                    echo '(possui '. count($nomeTreino).' treinos associado(s))';
+                }
+                ?>
+            </div>
             <form action="inserirTreino.php" method="post">
                 <h1 id="titulo-txt">Inserir Treino</h1>
                 <table cellspacing="10" id="tbl-cadastro-cliente">

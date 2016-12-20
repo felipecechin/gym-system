@@ -75,7 +75,8 @@ if ($_GET) {
                 $nomeAl = $_SESSION['nomeAluno'];
             }
             if (empty($nome)) {
-                echo '<h1>Não há treino para o aluno ' . $nomeAl . '.</h1>';
+                echo '<h1>Não há treino associado ao cliente ' . $nomeAl . '.</h1>';
+                echo 'Clique <a href="inserirTreino.php?c=' . $codigoAluno . '">aqui</a> para inserir um treino.';
                 die();
             } else {
                 echo '<p style="font-size: 16pt;">Treino de ' . $nomeAl . '</p>';

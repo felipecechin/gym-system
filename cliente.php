@@ -133,7 +133,7 @@ if (isset($_SESSION)) {
             <div id="breadcrumbs">Cliente</div>
             <br>
             <div style="width: 1000px; padding-bottom: 20px;">
-                <table id="example" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px;">
+                <table id="example" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px; text-align: center;">
                     <thead style="background-color: #2D8CB7 !important; color: white !important;">
                         <tr>
                             <th style="border: 0.5px solid white !important;">Nome</th>

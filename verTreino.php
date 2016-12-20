@@ -28,10 +28,7 @@ if ($_GET) {
         <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $('#treinoa').DataTable();
-            });
-            $(document).ready(function () {
-                $('#treinob').DataTable();
+                $('.table').DataTable();
             });
         </script>
     </head>
@@ -56,89 +53,95 @@ if ($_GET) {
             <?php
             if (isset($codigo)) {
                 $aluno = new aluno();
-                $resultado = $aluno->buscarAluno('codigo', $codigo);
-                $nome = $aluno->__get('nome');
-                echo '<p style="font-size: 16pt;">Treino de ' . $nome[0] . '</p>';
+                $aluno->buscarAluno('codigo', $codigo);
+                $nomeAluno = $aluno->__get('nome');
+                $treino = new treino();
+                $treino->buscarTreino('aluno', $codigo);
+                $codigoAluno = $codigo;
+                $nome = $treino->__get('nome');
+                $objetivo = $treino->__get('objetivo');
+                $id = $treino->__get('id');
+                $nomeAl = $nomeAluno[0];
             } else {
-                echo '<p style="font-size: 16pt;">Treino de ' . $_SESSION['nomeAluno'] . '</p>';
+                $aluno = new aluno();
+                $aluno->buscarAluno('nome', $_SESSION['nomeAluno']);
+                $codigo = $aluno->__get('codigo');
+                $treino = new treino();
+                $treino->buscarTreino('aluno', $codigo[0]);
+                $codigoAluno = $codigo[0];
+                $nome = $treino->__get('nome');
+                $objetivo = $treino->__get('objetivo');
+                $id = $treino->__get('id');
+                $nomeAl = $_SESSION['nomeAluno'];
+            }
+            if (empty($nome)) {
+                echo '<h1>Não há treino para o aluno ' . $nomeAl . '.</h1>';
+                die();
+            } else {
+                echo '<p style="font-size: 16pt;">Treino de ' . $nomeAl . '</p>';
             }
             ?>
         </div>
-        <div class="div-cliente">
-            <div id="breadcrumbs">Treino A<a href="" style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a></div>
-            <br>
-            <div style="width: 900px; padding-bottom: 20px;">
-                <table id="treinoa" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px;">
-                    <thead style="background-color: #2D8CB7 !important; color: white !important;">
-                        <tr>
-                            <th style="border: 0.5px solid white !important;">Exercício</th>
-                            <th style="border: 0.5px solid white !important;">Nº de séries</th>
-                            <th style="border: 0.5px solid white !important;">Nº de repetições</th>
-                            <th style="border: 0.5px solid white !important;">Carga (Kg)</th>
-                            <th style="border: 0.5px solid white !important;">Tempo aproximado<br>(min)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background-color: #D2DEEA !important;">
-                            <td style="border: 0.5px solid white !important;">Rosca Direta</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                            <td style="border: 0.5px solid white !important;">12</td>
-                            <td style="border: 0.5px solid white !important;">7</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                        </tr>
-                        <tr style="background-color: #D2DEEA !important;">
-                            <td style="border: 0.5px solid white !important;">Puxada Alta</td>
-                            <td style="border: 0.5px solid white !important;">4</td>
-                            <td style="border: 0.5px solid white !important;">10</td>
-                            <td style="border: 0.5px solid white !important;">35</td>
-                            <td style="border: 0.5px solid white !important;">4</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <?php
+        for ($i = 0; $i < count($nome); $i++) {
+            ?>
+            <div class="div-cliente">
+                <div id="breadcrumbs">
+                    <?php
+                    echo 'Treino ' . $nome[$i];
+                    ?>
+                    <a href="excluirTreino.php?i=<?php echo $id[$i]; ?>&c=<?php echo $codigoAluno; ?>" style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a></div>
+                <br>
+                <div style="width: 900px; padding-bottom: 20px;">
+                    <table id="treino" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px; text-align: center;">
+                        <thead style="background-color: #2D8CB7 !important; color: white !important;">
+                            <tr>
+                                <th style="border: 0.5px solid white !important;">Exercício</th>
+                                <th style="border: 0.5px solid white !important;">Nº de séries</th>
+                                <th style="border: 0.5px solid white !important;">Nº de repetições</th>
+                                <th style="border: 0.5px solid white !important;">Carga</th>
+                                <th style="border: 0.5px solid white !important;">Tempo</th>
+                                <th style="border: 0.5px solid white !important;">Equipamento</th>
+                            </tr>
+                        </thead>
+                        <?php
+                        $exerctreino = new exerc_treino();
+                        $exerctreino->buscarExercTreino('treino', $id[$i]);
+                        $exercicio = $exerctreino->__get('exercicio');
+                        $series = $exerctreino->__get('series');
+                        $repeticoes = $exerctreino->__get('repeticoes');
+                        $carga = $exerctreino->__get('carga');
+                        $tempo = $exerctreino->__get('tempo');
+                        $equipamento = $exerctreino->__get('equipamento');
+                        ?>
+                        <tbody>
+                            <?php
+                            for ($j = 0; $j < count($exercicio); $j++) {
+                                ?>
+                                <tr style="background-color: #D2DEEA !important;">
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($exercicio[$j])) ? '-' : $exercicio[$j]; ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($series[$j])) ? '-' : $series[$j]; ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($repeticoes[$j])) ? '-' : $repeticoes[$j]; ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($carga[$j])) ? '-' : $carga[$j]; ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($tempo[$j])) ? '-' : $tempo[$j]; ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($equipamento[$j])) ? '-' : $equipamento[$j]; ?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="div-cliente">
-            <div id="breadcrumbs">Treino B<a href="" style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a></div>
             <br>
-            <div style="width: 900px; padding-bottom: 20px;">
-                <table id="treinob" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px;">
-                    <thead style="background-color: #2D8CB7 !important; color: white !important;">
-                        <tr>
-                            <th style="border: 0.5px solid white !important;">Exercício</th>
-                            <th style="border: 0.5px solid white !important;">Nº de séries</th>
-                            <th style="border: 0.5px solid white !important;">Nº de repetições</th>
-                            <th style="border: 0.5px solid white !important;">Carga (Kg)</th>
-                            <th style="border: 0.5px solid white !important;">Tempo aproximado<br>(min)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background-color: #D2DEEA !important;">
-                            <td style="border: 0.5px solid white !important;">Extensor</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                            <td style="border: 0.5px solid white !important;">12</td>
-                            <td style="border: 0.5px solid white !important;">50</td>
-                            <td style="border: 0.5px solid white !important;">4</td>
-                        </tr>
-                        <tr style="background-color: #D2DEEA !important;">
-                            <td style="border: 0.5px solid white !important;">Supino Reto</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                            <td style="border: 0.5px solid white !important;">15</td>
-                            <td style="border: 0.5px solid white !important;">12</td>
-                            <td style="border: 0.5px solid white !important;">3</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <?php
+        }
+        ?>
         <br>
         <div id="treino-pessoa">
             <button style="float: right" type="submit" id="btn-entrar">Imprimir Treino</button>
         </div>
         <br>
     </center>
-    <?php
-    // put your code here
-    ?>
 </body>
 </html>

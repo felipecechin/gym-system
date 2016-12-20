@@ -36,7 +36,6 @@ class treino {
         $exercTreino->excluirExercTreinoPorTreino($id);
         $delete = new delete();
         $delete->doDelete('treino', 'WHERE id=:id', 'id=' . $id);
-        var_dump($delete);
     }
 
     function editarTreino($id, $nome, $objetivo) {
@@ -83,18 +82,11 @@ class treino {
             return $select->doSelectManual($query, $dados);
         } else {
             $resultado = $select->doSelect('treino', $termos, $dados);
-            if (count($resultado) == 1) {
-                $this->nome = $resultado[0]['nome'];
-                $this->id = $resultado[0]['id'];
-                $this->aluno = $resultado[0]['aluno'];
-                $this->objetivo = $resultado[0]['objetivo'];
-            } else {
-                foreach ($resultado as $valor) {
-                    $this->nome[] = $valor['nome'];
-                    $this->id[] = $valor['id'];
-                    $this->aluno[] = $valor['aluno'];
-                    $this->objetivo[] = $valor['objetivo'];
-                }
+            foreach ($resultado as $valor) {
+                $this->nome[] = $valor['nome'];
+                $this->id[] = $valor['id'];
+                $this->aluno[] = $valor['aluno'];
+                $this->objetivo[] = $valor['objetivo'];
             }
         }
     }

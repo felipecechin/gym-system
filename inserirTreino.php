@@ -228,9 +228,10 @@ if ($_GET) {
         for ($i = 0; $i < count($idTreino); $i++) {
             for ($j = 0; $j < count($exercTreinoNome[$i]); $j++) {
                 $exercTreino = new exerc_treino();
-                $exercTreino->adicionarExercTreino($exercTreinoNome[$i][$j], $idTreino[$i], $exercTreinoSer[$i][$j], $exercTreinoRep[$i][$j], $exercTreinoCarga[$i][$j],$exercTreinoTempo[$i][$j], $exercTreinoEquip[$i][$j]);
+                $exercTreino->adicionarExercTreino($exercTreinoNome[$i][$j], $idTreino[$i], $exercTreinoSer[$i][$j], $exercTreinoRep[$i][$j], $exercTreinoCarga[$i][$j], $exercTreinoTempo[$i][$j], $exercTreinoEquip[$i][$j]);
             }
         }
+        header('location:verTreino.php?c=' . $codigo);
     }
     ?>
 </body>

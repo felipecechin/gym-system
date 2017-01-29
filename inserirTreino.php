@@ -75,7 +75,8 @@ if ($_GET) {
                                     '</tr>' +
                                     '<tr>' +
                                     '<td colspan="2" style="text-align: center;">' +
-                                    '<center><div id="' + (i + 1) + '">' +
+                                    '<center>' +
+                                    '<div id="' + (i + 1) + '">' +
                                     '</div></center>' +
                                     '</td>' +
                                     '</tr>' +
@@ -187,7 +188,7 @@ if ($_GET) {
             <div id="breadcrumbs">Cliente > <?php echo $nome[0]; ?>
                 <?php
                 if (!empty($nomeTreino)) {
-                    echo '(possui '. count($nomeTreino).' treinos associado(s))';
+                    echo '(possui ' . count($nomeTreino) . ' treinos associado(s))';
                 }
                 ?>
             </div>
@@ -240,7 +241,6 @@ if ($_GET) {
                 $exercTreino->adicionarExercTreino($exercTreinoNome[$i][$j], $idTreino[$i], $exercTreinoSer[$i][$j], $exercTreinoRep[$i][$j], $exercTreinoCarga[$i][$j], $exercTreinoTempo[$i][$j], $exercTreinoEquip[$i][$j]);
             }
         }
-        header('location:verTreino.php?c=' . $codigo);
     }
     ?>
 </body>

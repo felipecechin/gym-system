@@ -40,20 +40,8 @@ and open the template in the editor.
                         </tr>
                     </table>
                 </div>
-                <div class="linha-input2">
-                    <table>
-                        <tr> 
-                            <td> 
-                                <input type="checkbox" id="check"> 
-                            </td>
-                            <td> 
-                                <label id="lembrar-txt" for="check">
-                                    Lembrar usuário
-                                </label>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <br>
+                <br>
                 <input type="submit" value="Entrar" id="btn-entrar">
             </form>
             <a href="#" id="esqueci-txt">Esqueci minha senha</a>

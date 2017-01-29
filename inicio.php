@@ -25,8 +25,5 @@ if (isset($_SESSION)) {
         <p>Av. Roraima, 10, Camobi</p>
         <p>CEP: 00000-000, Santa Maria, RS</p>
     </center>
-    <?php
-    // put your code here
-    ?>
 </body>
 </html>

@@ -16,28 +16,43 @@ and open the template in the editor.
             <h1 id="titulo-txt">Login</h1>
             <form style="padding-bottom: 10px;" action="index.php" method="post">
                 <div class="linha-input">
-                    <input type="text" placeholder="Login" name="login">
-                    <button class="input-email">
-                        <img src="img/email-icon.png" height="35px">
-                    </button>
-                </div>
-                <div class="linha-input">
-                    <input type="password" placeholder="Senha" name="senha">
-                    <button class="input-senha">
-                        <img src="img/senha-icon.png" height="30px">
-                    </button>
-                </div>
-                <div class="linha-input">
-                    <table>
+                    <table width="100%" style="text-align: center;">
                         <tr>
                             <td>
-                                <input type="checkbox" id="check">                     
+                                <input type="text" placeholder="Login" name="login" style="width: 100%;border: 0px; font-size: 13pt;">
                             </td>
                             <td>
-                                <label id="lembrar-txt">Lembrar usuário</label>
+                                <img src="img/email-icon.png" height="35px">
                             </td>
                         </tr>
                     </table>
+                </div>
+                <br>
+                <div class="linha-input">
+                    <table width="100%" style="text-align: center;">
+                        <tr>
+                            <td>
+                                <input type="password" placeholder="Senha" name="senha" style="width: 100%;border: 0px; font-size: 13pt;">
+                            </td>
+                            <td>
+                                <img src="img/senha-icon.png" height="30px">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="linha-input2">
+                    <label id="lembrar-txt">
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="check"> 
+                                </td> 
+                                <td> 
+                                    Lembrar usuário
+                                </td>
+                            </tr>
+                        </table>
+                    </label>
                 </div>
                 <input type="submit" value="Entrar" id="btn-entrar">
             </form>

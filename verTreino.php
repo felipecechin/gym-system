@@ -75,9 +75,14 @@ if ($_GET) {
                 $nomeAl = $_SESSION['nomeAluno'];
             }
             if (empty($nome)) {
-                echo '<h1>Não há treino associado ao cliente ' . $nomeAl . '.</h1>';
-                echo 'Clique <a href="inserirTreino.php?c=' . $codigoAluno . '">aqui</a> para inserir um treino.';
-                die();
+                if ($_SESSION['tipoUsuario'] == 1) {
+                    echo '<h1>Não há treino associado ao cliente ' . $nomeAl . '.</h1>';
+                    echo 'Clique <a href="inserirTreino.php?c=' . $codigoAluno . '">aqui</a> para inserir um treino.';
+                    die();
+                } else {
+                    echo '<h1>Não há treino associado ao seu perfil. <br> Comunique um instrutor!</h1>';
+                    die();
+                }
             } else {
                 echo '<p style="font-size: 16pt;">Treino de ' . $nomeAl . '</p>';
             }
@@ -93,7 +98,7 @@ if ($_GET) {
                     ?>
                     <a href="excluirTreino.php?i=<?php echo $id[$i]; ?>&c=<?php echo $codigoAluno; ?>" style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a></div>
                 <br>
-                <div style="width: 900px; padding-bottom: 20px;">
+                <div style="display: table; padding: 20px;margin: auto;">
                     <table id="treino" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px; text-align: center;">
                         <thead style="background-color: #2D8CB7 !important; color: white !important;">
                             <tr>
@@ -101,7 +106,7 @@ if ($_GET) {
                                 <th style="border: 0.5px solid white !important;">Nº de séries</th>
                                 <th style="border: 0.5px solid white !important;">Nº de repetições</th>
                                 <th style="border: 0.5px solid white !important;">Carga</th>
-                                <th style="border: 0.5px solid white !important;">Tempo</th>
+                                <th style="border: 0.5px solid white !important;">Tempo de descanso</th>
                                 <th style="border: 0.5px solid white !important;">Equipamento</th>
                             </tr>
                         </thead>
@@ -140,7 +145,7 @@ if ($_GET) {
         ?>
         <br>
         <div id="treino-pessoa">
-            <button style="float: right" type="submit" id="btn-entrar">Imprimir Treino</button>
+            <button style="float: right" type="submit" id="btn-entrar" onclick="javascript:window.print()">Imprimir treino</button>
         </div>
         <br>
     </center>

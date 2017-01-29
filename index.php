@@ -41,18 +41,18 @@ and open the template in the editor.
                     </table>
                 </div>
                 <div class="linha-input2">
-                    <label id="lembrar-txt">
-                        <table>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" id="check"> 
-                                </td> 
-                                <td> 
+                    <table>
+                        <tr> 
+                            <td> 
+                                <input type="checkbox" id="check"> 
+                            </td>
+                            <td> 
+                                <label id="lembrar-txt" for="check">
                                     Lembrar usuário
-                                </td>
-                            </tr>
-                        </table>
-                    </label>
+                                </label>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <input type="submit" value="Entrar" id="btn-entrar">
             </form>

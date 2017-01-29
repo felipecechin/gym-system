@@ -112,16 +112,26 @@ li a:hover {
     width: 200px;
     padding-left: 5px;
 }
+.inptEx {
+    height: 22px;
+    width: 150px;
+    padding-left: 5px;
+}
 #tbl-cadastro-cliente{
     font-size: 11pt;
+    text-align: center;
 }
 .div-cliente{
     border: 1px solid #2D79BB;
     width: 1100px;
+    display: table;
+    text-align: center;
 }
 #div-cadastro-treino{
     border: 1px solid #2D79BB;
     width: 1000px;
+    display: table;
+    text-align: center;
 }
 #breadcrumbs{
     padding: 5px;

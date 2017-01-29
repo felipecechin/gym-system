@@ -29,142 +29,76 @@ if ($_GET) {
         <meta charset="UTF-8">
         <title></title>
         <link href="estilo.css" rel="stylesheet">
+        <script src="js/jquery-1.12.0.min.js"></script>
         <script>
-            function adicionaForm(valor) {
-                var i;
-                var inputNtreino;
-                if (valor == 0) {
-                    var div = document.getElementById("form1");
-                    div.innerHTML = '';
-                } else {
-                    for (i = 0; i < valor; i++) {
-                        if (i == 0) {
-                            inputNtreino = '<div style="border: 1px solid #2D79BB;"><table>' +
-                                    '<tr>' +
-                                    '<td>Nome do treino (' + (i + 1) + '):</td>' +
-                                    '<td><input type="text" placeholder="Exemplo: A" class="inpt" name="nomeT' + (i + 1) + '" required=""></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Objetivo do treino (' + (i + 1) + '):</td>' +
-                                    '<td><input type="text" placeholder="Exemplo: Hipertrofia" class="inpt" name="objetivoT' + (i + 1) + '" required=""></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Número de exercícios do treino (' + (i + 1) + '):</td>' +
-                                    '<td><input type="text" placeholder="Número de Exercícios" class="inpt" onkeyup="mostraInputsExercicios(this.value, ' + (i + 1) + ')" required=""></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td colspan="2" style="text-align: center;">' +
-                                    '<center><div id="' + (i + 1) + '">' +
-                                    '</div></center>' +
-                                    '</td>' +
-                                    '</tr>' +
-                                    '<table></div>';
-                        } else {
-                            inputNtreino = inputNtreino + '<div style="border: 1px solid #2D79BB;"><table>' +
-                                    '<tr>' +
-                                    '<td>Nome do treino (' + (i + 1) + '):</td>' +
-                                    '<td><input type="text" placeholder="Exemplo: A" class="inpt" name="nomeT' + (i + 1) + '" required=""></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Objetivo do treino (' + (i + 1) + '):</td>' +
-                                    '<td><input type="text" placeholder="Exemplo: Hipertrofia" class="inpt" name="objetivoT' + (i + 1) + '" required=""></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Número de exercícios do treino (' + (i + 1) + '):</td>' +
-                                    '<td><input type="text" placeholder="Número de Exercícios" class="inpt" onkeyup="mostraInputsExercicios(this.value, ' + (i + 1) + ')" required=""></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td colspan="2" style="text-align: center;">' +
-                                    '<center>' +
-                                    '<div id="' + (i + 1) + '">' +
-                                    '</div></center>' +
-                                    '</td>' +
-                                    '</tr>' +
-                                    '<table></div>';
-                        }
-                    }
-                    var div = document.getElementById("form1");
-                    div.innerHTML = inputNtreino;
-                }
+            function adicionaExercicio(valor) {
+                var conteudo = '<table>' +
+                        '<tr>' +
+                        '<td><input type="text" placeholder="Nome" class="inptEx" name="nome' + valor + '[]" required=""></td>' +
+                        '<td><input type="text" placeholder="Número de repetições" class="inptEx" name="rep' + valor + '[]"></td>' +
+                        '<td><input type="text" placeholder="Número de séries" class="inptEx" name="series' + valor + '[]"></td>' +
+                        '<td><input type="text" placeholder="Carga" class="inptEx" name="carga' + valor + '[]"></td>' +
+                        '<td><input type="text" placeholder="Tempo de descanso" class="inptEx" name="tempo' + valor + '[]"></td>' +
+                        '<td><input type="text" placeholder="Equipamento" class="inptEx" name="equip' + valor + '[]"></td>' +
+                        '</tr>' +
+                        '</table>';
+                $('#acrescentaEx' + valor).append(conteudo);
             }
-            function mostraInputsExercicios(qtdEx, numTreino) {
-                var i;
-                var inputs;
-                if (qtdEx == 0) {
-                    var lugar = document.getElementById(numTreino);
-                    lugar.innerHTML = '';
-                } else {
-                    for (i = 0; i < qtdEx; i++) {
-                        if (i == 0) {
-                            inputs = '<table>' +
-                                    '<tr>' +
-                                    '<td colspan="2" style="text-align: center;">' +
-                                    '<h3>Exercício ' + (i + 1) + ' do treino (' + numTreino + ')</h3>' +
-                                    '</td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Nome:</td>' +
-                                    '<td><input type="text" placeholder="Nome" class="inpt" name="nome' + numTreino + '[]" required=""></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Número repetições:</td>' +
-                                    '<td><input type="text" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Número séries:</td>' +
-                                    '<td><input type="text" placeholder="Número de séries" class="inpt" name="series' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Carga:</td>' +
-                                    '<td><input type="text" placeholder="Carga" class="inpt" name="carga' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Tempo:</td>' +
-                                    '<td><input type="text" placeholder="Tempo" class="inpt" name="tempo' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Equipamento:</td>' +
-                                    '<td><input type="text" placeholder="Equipamento" class="inpt" name="equip' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<table>';
-                        } else {
-                            inputs = inputs + '<table>' +
-                                    '<tr>' +
-                                    '<td colspan="2" style="text-align: center;">' +
-                                    '<h3>Exercício ' + (i + 1) + ' do treino (' + numTreino + ')</h3>' +
-                                    '</td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Nome:</td>' +
-                                    '<td><input type="text" placeholder="Nome" class="inpt" name="nome' + numTreino + '[]" required=""></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Número repetições:</td>' +
-                                    '<td><input type="text" placeholder="Número de repetições" class="inpt" name="rep' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Número séries:</td>' +
-                                    '<td><input type="text" placeholder="Número de séries" class="inpt" name="series' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Carga:</td>' +
-                                    '<td><input type="text" placeholder="Carga" class="inpt" name="carga' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Tempo:</td>' +
-                                    '<td><input type="text" placeholder="Tempo" class="inpt" name="tempo' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<tr>' +
-                                    '<td>Equipamento:</td>' +
-                                    '<td><input type="text" placeholder="Equipamento" class="inpt" name="equip' + numTreino + '[]"></td>' +
-                                    '</tr>' +
-                                    '<table>';
-                            ;
-                        }
-                    }
-                    var lugar = document.getElementById(numTreino);
-                    lugar.innerHTML = inputs;
-                }
+            function adicionaTreino() {
+                var divs = document.getElementById('acrescentaTreino').querySelectorAll('div');
+                var numTreino = (divs.length + 1);
+
+                var conteudo = '<div style="border: 1px solid #2D79BB;">' +
+                        '<table width="70%" align="center">' +
+                        '<tr>' +
+                        '<td width="200">Nome do treino (' + numTreino + '):</td>' +
+                        '<td><input type="text" placeholder="Exemplo: A" class="inpt" name="nomeT[]" required=""></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Objetivo do treino (' + numTreino + '):</td>' +
+                        '<td><input type="text" placeholder="Exemplo: Hipertrofia" class="inpt" name="objetivoT[]" required=""></td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td colspan="2" id="acrescentaEx' + numTreino + '">' +
+                        '<table align="center">' +
+                        '<tr>' +
+                        '<td colspan="6" style="text-align: center;">' +
+                        '<table align="center">' +
+                        '<tr>' +
+                        '<td>' +
+                        '<h4 style="margin: 5px;">Exercícios do treino (' + numTreino + ')</h4>' +
+                        '</td>' +
+                        '<td>' +
+                        '<a href="#" onclick="adicionaExercicio(' + numTreino + ');">' +
+                        '<table>' +
+                        '<tr>' +
+                        '<td>' +
+                        '<img src="img/mais-icon.png" style="height: 20px;">' +
+                        '</td>' +
+                        '<td style="color: #2D8CB7;">EXERCÍCIO</td>' +
+                        '</tr>' +
+                        '</table>' +
+                        '</a>' +
+                        '</td>' +
+                        '</tr>' +
+                        '</table>' +
+                        '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td><input type="text" placeholder="Nome" class="inptEx" name="nome' + numTreino + '[]" required=""></td>' +
+                        '<td><input type="text" placeholder="Número de repetições" class="inptEx" name="rep' + numTreino + '[]"></td>' +
+                        '<td><input type="text" placeholder="Número de séries" class="inptEx" name="series' + numTreino + '[]"></td>' +
+                        '<td><input type="text" placeholder="Carga" class="inptEx" name="carga' + numTreino + '[]"></td>' +
+                        '<td><input type="text" placeholder="Tempo de descanso" class="inptEx" name="tempo' + numTreino + '[]"></td>' +
+                        '<td><input type="text" placeholder="Equipamento" class="inptEx" name="equip' + numTreino + '[]"></td>' +
+                        '</tr>' +
+                        '</table>' +
+                        '</td>' +
+                        '</tr>' +
+                        '</table>' +
+                        '</div>';
+
+                $('#acrescentaTreino').append(conteudo);
             }
         </script>
     </head>
@@ -193,22 +127,73 @@ if ($_GET) {
                 ?>
             </div>
             <form action="inserirTreino.php" method="post">
-                <h1 id="titulo-txt">Inserir Treino</h1>
-                <table cellspacing="10" id="tbl-cadastro-cliente">
+                <input type="hidden" name="codigo" value="<?php echo $_SESSION['codigo']; ?>">
+                <h1 id="titulo-txt">Inserir treino(s)</h1>
+                <div id="acrescentaTreino">
+                    <div style="border: 1px solid #2D79BB;">
+                        <table width="70%" align="center">
+                            <tr>
+                                <td width="200">Nome do treino (1):</td>
+                                <td><input type="text" placeholder="Exemplo: A" class="inpt" name="nomeT[]" required=""></td>
+                            </tr>
+                            <tr>
+                                <td>Objetivo do treino (1):</td>
+                                <td><input type="text" placeholder="Exemplo: Hipertrofia" class="inpt" name="objetivoT[]" required=""></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" id="acrescentaEx1">
+                                    <table align="center">
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">
+                                                <table align="center">
+                                                    <tr> 
+                                                        <td> 
+                                                            <h4 style="margin: 5px;">Exercícios do treino (1)</h4>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" onclick="adicionaExercicio(1);">
+                                                                <table> 
+                                                                    <tr> 
+                                                                        <td> 
+                                                                            <img src="img/mais-icon.png" style="height: 20px;">
+                                                                        </td> 
+                                                                        <td style="color: #2D8CB7;">EXERCÍCIO</td> 
+                                                                    </tr>
+                                                                </table>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" placeholder="Nome" class="inptEx" name="nome1[]" required=""></td>
+                                            <td><input type="text" placeholder="Número de repetições" class="inptEx" name="rep1[]"></td>
+                                            <td><input type="text" placeholder="Número de séries" class="inptEx" name="series1[]"></td>
+                                            <td><input type="text" placeholder="Carga" class="inptEx" name="carga1[]"></td>
+                                            <td><input type="text" placeholder="Tempo de descanso" class="inptEx" name="tempo1[]"></td>
+                                            <td><input type="text" placeholder="Equipamento" class="inptEx" name="equip1[]"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <a href="#" onclick="adicionaTreino();" >
+                    <table align="right"> 
+                        <tr> 
+                            <td> 
+                                <img src="img/mais-icon.png" style="height: 20px;">
+                            </td> 
+                            <td style="color: #2D8CB7;">TREINO</td> 
+                        </tr>
+                    </table>
+                </a>
+                <br><br>
+                <table style="height: 50px" align="right">
                     <tr>
-                        <td>Número de treinos:</td>
-                        <td>
-                            <input type="number" name="numTreinos" class="inpt" placeholder="Número de treinos" onkeyup="adicionaForm(this.value)"> 
-                            <input type="hidden" name="codigo" value="<?php echo $_SESSION['codigo']; ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <div id="form1"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: right">
+                        <td> 
                             <input type="reset" value="Limpar" id="btn-limpar"> 
                             <input type="submit" value="Salvar" id="btn-entrar">
                         </td>
@@ -219,15 +204,13 @@ if ($_GET) {
     </center>
     <?php
     if ($_POST) {
-        $numTreinos = $_POST['numTreinos'];
+        $nomeT = $_POST['nomeT'];
+        $objetivoT = $_POST['objetivoT'];
         $codigo = $_POST['codigo'];
 
-        for ($i = 0; $i < $numTreinos; $i++) {
+        for ($i = 0; $i < count($nomeT); $i++) {
             $treino = new treino();
             $numT = $i + 1;
-            $nomeT = $_POST['nomeT' . $numT];
-            $objetivoT = $_POST['objetivoT' . $numT];
-            $idTreino[$i] = $treino->adicionarTreino($nomeT, $codigo, $objetivoT);
             $exercTreinoRep[$i] = $_POST['rep' . $numT];
             $exercTreinoSer[$i] = $_POST['series' . $numT];
             $exercTreinoCarga[$i] = $_POST['carga' . $numT];
@@ -235,12 +218,15 @@ if ($_GET) {
             $exercTreinoTempo[$i] = $_POST['tempo' . $numT];
             $exercTreinoEquip[$i] = $_POST['equip' . $numT];
         }
-        for ($i = 0; $i < count($idTreino); $i++) {
+
+        for ($i = 0; $i < count($nomeT); $i++) {
+            $idTreino[$i] = $treino->adicionarTreino($nomeT[$i], $codigo, $objetivoT[$i]);
             for ($j = 0; $j < count($exercTreinoNome[$i]); $j++) {
                 $exercTreino = new exerc_treino();
                 $exercTreino->adicionarExercTreino($exercTreinoNome[$i][$j], $idTreino[$i], $exercTreinoSer[$i][$j], $exercTreinoRep[$i][$j], $exercTreinoCarga[$i][$j], $exercTreinoTempo[$i][$j], $exercTreinoEquip[$i][$j]);
             }
         }
+        echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=verTreino.php?c=" . $codigo . "'>";
     }
     ?>
 </body>

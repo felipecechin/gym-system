@@ -50,8 +50,8 @@ if (isset($_SESSION)) {
         <br>
         <div class="div-cliente">
             <form action="cliente.php" method="post">
-                <h1 id="titulo-txt">Inserir Cliente</h1>
-                <table cellspacing="10" id="tbl-cadastro-cliente">
+                <h1 id="titulo-txt">Inserir cliente</h1>
+                <table cellspacing="10" id="tbl-cadastro-cliente" align="center">
                     <tr>
                         <td>Nome:</td>
                         <td><input type="text" placeholder="Nome" class="inpt" name="nome"></td>
@@ -63,8 +63,18 @@ if (isset($_SESSION)) {
                     <tr>
                         <td>Gênero:</td>
                         <td>
-                            <input type="radio" name="genero" value="M"> Masculino<br>
-                            <input type="radio" name="genero" value="F"> Feminino
+                            <table align="center">
+                                <tr> 
+                                    <td> 
+                                        <input type="radio" name="genero" value="M"> Masculino
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="radio" name="genero" value="F"> Feminino
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     <tr>
@@ -109,7 +119,7 @@ if (isset($_SESSION)) {
                     $aluno->buscarAluno('codigo', $codigo);
                     $codigoBanco = $aluno->__get('codigo');
                 }
-                
+
                 $divide = explode('/', $dataNasc);
                 $dia = $divide[0];
                 $mes = $divide[1];
@@ -132,7 +142,7 @@ if (isset($_SESSION)) {
         <div class="div-cliente">
             <div id="breadcrumbs">Cliente</div>
             <br>
-            <div style="width: 1000px; padding-bottom: 20px;">
+            <div style="width: 1000px; padding-bottom: 20px;margin: auto;">
                 <table id="example" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px; text-align: center;">
                     <thead style="background-color: #2D8CB7 !important; color: white !important;">
                         <tr>

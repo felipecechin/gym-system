@@ -76,14 +76,14 @@ and open the template in the editor.
                 if (!empty($senha2) || !empty($senha3[0])) {
                     $hash = $senha2;
                     if (crypt($senha, $hash) === $hash) {
-                        header('location:inicio.php');
                         session_start();
                         $_SESSION['tipoUsuario'] = '1';
+                        header('location:inicio.php');
                     } else if (isset($senha4) && $senha == $senha4) {
-                        header('location:verTreino.php');
                         session_start();
                         $_SESSION['tipoUsuario'] = '2';
                         $_SESSION['nomeAluno'] = $nomeAluno[0];
+                        header('location:verTreino.php');
                     } else {
                         echo '<div id="erro">Senha inválida</div>';
                     }

@@ -23,7 +23,7 @@ class insert extends conexao {
         if ($ultimoId) {
             return $this->executar($ultimoId);
         } else {
-            $this->executar();
+            return $this->executar();
         }
     }
 
@@ -41,11 +41,15 @@ class insert extends conexao {
         try {
             $this->conectando();
             $this->insert = $this->conexao->prepare($this->query);
-            $this->insert->execute($this->dados);
+            $return = $this->insert->execute($this->dados);
             if ($ultimoId) {
                 $conn = $this->conexao;
-                return $this->ultimoId = $conn->lastInsertId();
+                $this->ultimoId = $conn->lastInsertId();
+                if ($this->ultimoId != 0) {
+                    $return = $this->ultimoId;
+                }
             }
+            return $return;
         } catch (Exception $e) {
             echo 'Erro - ' . $e->getMessage();
         }

@@ -19,30 +19,22 @@ class instrutor {
     function __get($prop) {
         return $this->$prop;
     }
+    
+    function getLogin() {
+        return $this->login;
+    }
 
-    function cadastrarInstrutor($login,$senha) {
+    function getSenha() {
+        return $this->senha;
+    }
+
+    function setLogin($login) {
         $this->login = $login;
+    }
+
+    function setSenha($senha) {
         $this->senha = $senha;
-
-        $dados = ['login' => $login, 'senha' => $senha];
-        $insert = new insert();
-        $insert->doInsert('instrutor', $dados);
     }
 
-    function buscarInstrutor($tipo, $valor) {
-        switch ($tipo) {
-            case 'login': {
-                    $termos = 'WHERE login=:login';
-                    $dados = 'login=' . $valor;
-                    break;
-                }
-        }
-        $select = new select();
-        $resultado = $select->doSelect('instrutor', $termos, $dados);
-        if ($resultado) {
-            $this->login = $resultado[0]['login'];
-            $this->senha = $resultado[0]['senha'];
-        }
-    }
 
 }

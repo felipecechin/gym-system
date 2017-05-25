@@ -6,8 +6,6 @@
  * and open the template in the editor.
  */
 
-require_once 'exerc_treino.class.php';
-
 class treino {
 
     private $nome;
@@ -19,76 +17,36 @@ class treino {
         return $this->$prop;
     }
 
-    function adicionarTreino($nome, $aluno, $objetivo) {
+    function getNome() {
+        return $this->nome;
+    }
+
+    function getId() {
+        return $this->id;
+    }
+
+    function getAluno() {
+        return $this->aluno;
+    }
+
+    function getObjetivo() {
+        return $this->objetivo;
+    }
+
+    function setNome($nome) {
         $this->nome = $nome;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setAluno($aluno) {
         $this->aluno = $aluno;
+    }
+
+    function setObjetivo($objetivo) {
         $this->objetivo = $objetivo;
-
-        $dados = ['nome' => $nome, 'aluno' => $aluno, 'objetivo' => $objetivo];
-        $insert = new insert();
-        return $insert->doInsert('treino', $dados, true);
-    }
-
-    function excluirTreino($id) {
-        $this->id = $id;
-
-        $exercTreino = new exerc_treino();
-        $exercTreino->excluirExercTreinoPorTreino($id);
-        $delete = new delete();
-        $delete->doDelete('treino', 'WHERE id=:id', 'id=' . $id);
-    }
-
-    function editarTreino($id, $nome, $objetivo) {
-        $this->nome = $nome;
-        $this->id = $id;
-        $this->objetivo = $objetivo;
-
-        $update = new update();
-        $dados = ['nome' => $nome, 'objetivo' => $objetivo];
-        $update->doUpdate('treino', $dados, 'WHERE id=:id', 'id=' . $id);
-        var_dump($update);
-    }
-
-    function buscarTreino($tipo, $valor) {
-        switch ($tipo) {
-            case 'nome': {
-                    $termos = 'WHERE nome like :nome';
-                    $dados = 'nome=' . $valor;
-                    break;
-                }
-            case 'id': {
-                    $termos = 'WHERE id=:id';
-                    $dados = 'id=' . $valor;
-                    break;
-                }
-            case 'aluno': {
-                    $termos = 'WHERE aluno=:aluno';
-                    $dados = 'aluno=' . $valor;
-                    break;
-                }
-            case 'objetivo': {
-                    $termos = 'WHERE objetivo like :objetivo';
-                    $dados = 'objetivo=' . $valor;
-                    break;
-                }
-            default: {
-                    $query = $tipo;
-                    $dados = $valor;
-                    break;
-                }
-        }
-        $select = new select();
-        if (isset($query)) {
-            return $select->doSelectManual($query, $dados);
-        } else {
-            $resultado = $select->doSelect('treino', $termos, $dados);
-            foreach ($resultado as $valor) {
-                $this->nome[] = $valor['nome'];
-                $this->id[] = $valor['id'];
-                $this->aluno[] = $valor['aluno'];
-                $this->objetivo[] = $valor['objetivo'];
-            }
-        }
     }
 
 }

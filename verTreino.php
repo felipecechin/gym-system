@@ -1,14 +1,10 @@
 <?php
 require_once './functions.php';
-require_once './Class/conexao.class.php';
-require_once './Class/insert.class.php';
-require_once './Class/select.class.php';
-require_once './Class/update.class.php';
-require_once './Class/delete.class.php';
 require_once './Class/aluno.class.php';
 require_once './Class/instrutor.class.php';
 require_once './Class/exerc_treino.class.php';
 require_once './Class/treino.class.php';
+require_once './Dao/dao.class.php';
 protection();
 if ($_GET) {
     $codigo = $_GET['c'];
@@ -53,30 +49,25 @@ if ($_GET) {
             <?php
             if (isset($codigo)) {
                 $aluno = new aluno();
-                $aluno->buscarAluno('codigo', $codigo);
-                $nomeAluno = $aluno->__get('nome');
-                $treino = new treino();
-                $treino->buscarTreino('aluno', $codigo);
-                $codigoAluno = $codigo;
-                $nome = $treino->__get('nome');
-                $objetivo = $treino->__get('objetivo');
-                $id = $treino->__get('id');
-                $nomeAl = $nomeAluno[0];
+                $aluno->setCodigo($codigo);
+                $dao = new dao();
+                $aluno = $dao->buscarObjeto($aluno);
+                $nomeAluno = $aluno[0]->getNome();
+                $codigoAluno = $aluno[0]->getCodigo();
             } else {
                 $aluno = new aluno();
-                $aluno->buscarAluno('nome', $_SESSION['nomeAluno']);
-                $codigo = $aluno->__get('codigo');
-                $treino = new treino();
-                $treino->buscarTreino('aluno', $codigo[0]);
-                $codigoAluno = $codigo[0];
-                $nome = $treino->__get('nome');
-                $objetivo = $treino->__get('objetivo');
-                $id = $treino->__get('id');
-                $nomeAl = $_SESSION['nomeAluno'];
+                $aluno->setNome($_SESSION['nomeAluno']);
+                $dao = new dao();
+                $aluno = $dao->buscarObjeto($aluno);
+                $nomeAluno = $aluno[0]->getNome();
+                $codigoAluno = $aluno[0]->getCodigo();
             }
-            if (empty($nome)) {
+            $treino = new treino();
+            $treino->setAluno($codigoAluno);
+            $treino = $dao->buscarObjeto($treino);
+            if (!$treino) {
                 if ($_SESSION['tipoUsuario'] == 1) {
-                    echo '<h1>Não há treino associado ao cliente ' . $nomeAl . '.</h1>';
+                    echo '<h1>Não há treino associado ao cliente ' . $nomeAluno . '.</h1>';
                     echo 'Clique <a href="inserirTreino.php?c=' . $codigoAluno . '">aqui</a> para inserir um treino.';
                     die();
                 } else {
@@ -84,19 +75,19 @@ if ($_GET) {
                     die();
                 }
             } else {
-                echo '<p style="font-size: 16pt;">Treino de ' . $nomeAl . '</p>';
+                echo '<p style="font-size: 16pt;">Treino de ' . $nomeAluno . '</p>';
             }
             ?>
         </div>
         <?php
-        for ($i = 0; $i < count($nome); $i++) {
+        foreach ($treino as $treinoDados) {
             ?>
             <div class="div-cliente">
                 <div id="breadcrumbs">
                     <?php
-                    echo 'Treino ' . $nome[$i];
+                    echo 'Treino ' . $treinoDados->getNome();
                     ?>
-                    <a href="excluirTreino.php?i=<?php echo $id[$i]; ?>&c=<?php echo $codigoAluno; ?>" style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a></div>
+                    <a href="excluirTreino.php?i=<?php echo $treinoDados->getId(); ?>&c=<?php echo $codigoAluno; ?>" style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a></div>
                 <br>
                 <div style="display: table; padding: 20px;margin: auto;">
                     <table id="treino" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px; text-align: center;">
@@ -112,25 +103,21 @@ if ($_GET) {
                         </thead>
                         <?php
                         $exerctreino = new exerc_treino();
-                        $exerctreino->buscarExercTreino('treino', $id[$i]);
-                        $exercicio = $exerctreino->__get('exercicio');
-                        $series = $exerctreino->__get('series');
-                        $repeticoes = $exerctreino->__get('repeticoes');
-                        $carga = $exerctreino->__get('carga');
-                        $tempo = $exerctreino->__get('tempo');
-                        $equipamento = $exerctreino->__get('equipamento');
+                        $exerctreino->setTreino($treinoDados->getId());
+                        $dao = new dao();
+                        $exerctreino = $dao->buscarObjeto($exerctreino);
                         ?>
                         <tbody>
                             <?php
-                            for ($j = 0; $j < count($exercicio); $j++) {
+                            foreach ($exerctreino as $exerctreinoDados) {
                                 ?>
                                 <tr style="background-color: #D2DEEA !important;">
-                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($exercicio[$j])) ? '-' : $exercicio[$j]; ?></td>
-                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($series[$j])) ? '-' : $series[$j]; ?></td>
-                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($repeticoes[$j])) ? '-' : $repeticoes[$j]; ?></td>
-                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($carga[$j])) ? '-' : $carga[$j]; ?></td>
-                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($tempo[$j])) ? '-' : $tempo[$j]; ?></td>
-                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($equipamento[$j])) ? '-' : $equipamento[$j]; ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($exerctreinoDados->getExercicio())) ? '-' : $exerctreinoDados->getExercicio(); ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($exerctreinoDados->getSeries())) ? '-' : $exerctreinoDados->getSeries(); ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($exerctreinoDados->getRepeticoes())) ? '-' : $exerctreinoDados->getRepeticoes(); ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($exerctreinoDados->getCarga())) ? '-' : $exerctreinoDados->getCarga(); ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($exerctreinoDados->getTempo())) ? '-' : $exerctreinoDados->getTempo(); ?></td>
+                                    <td style="border: 0.5px solid white !important;"><?php echo (empty($exerctreinoDados->getEquipamento())) ? '-' : $exerctreinoDados->getEquipamento(); ?></td>
                                 </tr>
                                 <?php
                             }

@@ -1,14 +1,10 @@
 <?php
 require_once './functions.php';
-require_once './Class/conexao.class.php';
-require_once './Class/insert.class.php';
-require_once './Class/select.class.php';
-require_once './Class/update.class.php';
-require_once './Class/delete.class.php';
 require_once './Class/aluno.class.php';
 require_once './Class/instrutor.class.php';
 require_once './Class/exerc_treino.class.php';
 require_once './Class/treino.class.php';
+require_once './Dao/dao.class.php';
 protection();
 if (isset($_SESSION)) {
     if ($_SESSION['tipoUsuario'] == 2) {
@@ -113,16 +109,20 @@ if ($_GET) {
         <div id="div-cadastro-treino">
             <?php
             $aluno = new aluno();
-            $resultado = $aluno->buscarAluno('codigo', $_SESSION['codigo']);
-            $nome = $aluno->__get('nome');
+            $aluno->setCodigo($_SESSION['codigo']);
+            $dao = new dao();
+            $aluno = $dao->buscarObjeto($aluno);
+            $nomeCliente = $aluno[0]->getNome();
+            
             $treino = new treino();
-            $treino->buscarTreino('aluno', $_SESSION['codigo']);
-            $nomeTreino = $treino->__get('nome');
+            $treino->setAluno($_SESSION['codigo']);
+            $dao = new dao();
+            $treino = $dao->buscarObjeto($treino);
             ?>
-            <div id="breadcrumbs">Cliente > <?php echo $nome[0]; ?>
+            <div id="breadcrumbs">Cliente > <?php echo $nomeCliente; ?>
                 <?php
-                if (!empty($nomeTreino)) {
-                    echo '(possui ' . count($nomeTreino) . ' treinos associado(s))';
+                if ($treino) {
+                    echo '(possui ' . count($treino) . ' treinos associado(s))';
                 }
                 ?>
             </div>
@@ -204,12 +204,11 @@ if ($_GET) {
     </center>
     <?php
     if ($_POST) {
-        $nomeT = $_POST['nomeT'];
-        $objetivoT = $_POST['objetivoT'];
-        $codigo = $_POST['codigo'];
+        $nomeTreino = $_POST['nomeT'];
+        $objetivoTreino = $_POST['objetivoT'];
+        $codigoCliente = $_POST['codigo'];
 
-        for ($i = 0; $i < count($nomeT); $i++) {
-            $treino = new treino();
+        for ($i = 0; $i < count($nomeTreino); $i++) {
             $numT = $i + 1;
             $exercTreinoRep[$i] = $_POST['rep' . $numT];
             $exercTreinoSer[$i] = $_POST['series' . $numT];
@@ -219,14 +218,26 @@ if ($_GET) {
             $exercTreinoEquip[$i] = $_POST['equip' . $numT];
         }
 
-        for ($i = 0; $i < count($nomeT); $i++) {
-            $idTreino[$i] = $treino->adicionarTreino($nomeT[$i], $codigo, $objetivoT[$i]);
+        for ($i = 0; $i < count($nomeTreino); $i++) {
+            $treino = new treino();
+            $treino->setAluno($codigoCliente);
+            $treino->setNome($nomeTreino[$i]);
+            $treino->setObjetivo($objetivoTreino[$i]);
+            $dao = new dao();
+            $idTreinoSalvo = $dao->salvarObjeto($treino);
             for ($j = 0; $j < count($exercTreinoNome[$i]); $j++) {
                 $exercTreino = new exerc_treino();
-                $exercTreino->adicionarExercTreino($exercTreinoNome[$i][$j], $idTreino[$i], $exercTreinoSer[$i][$j], $exercTreinoRep[$i][$j], $exercTreinoCarga[$i][$j], $exercTreinoTempo[$i][$j], $exercTreinoEquip[$i][$j]);
+                $exercTreino->setCarga($exercTreinoCarga[$i][$j]);
+                $exercTreino->setEquipamento($exercTreinoEquip[$i][$j]);
+                $exercTreino->setExercicio($exercTreinoNome[$i][$j]);
+                $exercTreino->setRepeticoes($exercTreinoRep[$i][$j]);
+                $exercTreino->setSeries($exercTreinoSer[$i][$j]);
+                $exercTreino->setTempo($exercTreinoTempo[$i][$j]);
+                $exercTreino->setTreino($idTreinoSalvo);
+                $dao->salvarObjeto($exercTreino);
             }
         }
-        echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=verTreino.php?c=" . $codigo . "'>";
+        echo "<meta HTTP-EQUIV='refresh' CONTENT='0;URL=verTreino.php?c=" . $codigoCliente . "'>";
     }
     ?>
 </body>

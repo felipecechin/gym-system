@@ -54,11 +54,6 @@ INSERT INTO `aluno` (`cpf`, `nome`, `dataNasc`, `genero`, `altura`, `biotipo`, `
 -- Estrutura da tabela `exercicio`
 --
 
-CREATE TABLE `exercicio` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
 
 --
@@ -67,7 +62,7 @@ CREATE TABLE `exercicio` (
 
 CREATE TABLE `exerc_treino` (
   `treino` int(11) NOT NULL,
-  `exercicio` int(11) NOT NULL,
+  `exercicio` varchar(100) DEFAULT NULL,
   `repeticoes` varchar(100) DEFAULT NULL,
   `carga` varchar(100) DEFAULT NULL,
   `series` varchar(100) DEFAULT NULL,
@@ -125,20 +120,11 @@ INSERT INTO `treino` (`id`, `nome`, `objetivo`, `aluno`) VALUES
 ALTER TABLE `aluno`
   ADD PRIMARY KEY (`codigo`),
   ADD UNIQUE KEY `cpf` (`cpf`);
-
---
--- Indexes for table `exercicio`
---
-ALTER TABLE `exercicio`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nome` (`nome`);
-
 --
 -- Indexes for table `exerc_treino`
 --
 ALTER TABLE `exerc_treino`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_treino_has_exercicio_exercicio1_idx` (`exercicio`),
   ADD KEY `fk_treino_has_exercicio_treino1_idx` (`treino`);
 
 --
@@ -159,11 +145,6 @@ ALTER TABLE `treino`
 --
 
 --
--- AUTO_INCREMENT for table `exercicio`
---
-ALTER TABLE `exercicio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `exerc_treino`
 --
 ALTER TABLE `exerc_treino`
@@ -181,14 +162,13 @@ ALTER TABLE `treino`
 -- Limitadores para a tabela `exerc_treino`
 --
 ALTER TABLE `exerc_treino`
-  ADD CONSTRAINT `fk_treino_has_exercicio_exercicio1` FOREIGN KEY (`exercicio`) REFERENCES `exercicio` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_treino_has_exercicio_treino1` FOREIGN KEY (`treino`) REFERENCES `treino` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_treino_has_exercicio_treino1` FOREIGN KEY (`treino`) REFERENCES `treino` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Limitadores para a tabela `treino`
 --
 ALTER TABLE `treino`
-  ADD CONSTRAINT `fk_treino_aluno` FOREIGN KEY (`aluno`) REFERENCES `aluno` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_treino_aluno` FOREIGN KEY (`aluno`) REFERENCES `aluno` (`codigo`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

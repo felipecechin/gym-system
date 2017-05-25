@@ -22,10 +22,153 @@ class aluno {
     private $frequenciaSem;
     private $codigo;
 
-    function __get($prop) {
-        return $this->$prop;
+    function __get($name) {
+        return $this->$name;
     }
 
+    function getNome() {
+        return $this->nome;
+    }
+
+    function getCpf() {
+        return $this->cpf;
+    }
+
+    function getDataNasc() {
+        return $this->dataNasc;
+    }
+
+    function getGenero() {
+        return $this->genero;
+    }
+
+    function getAltura() {
+        return $this->altura;
+    }
+
+    function getBiotipo() {
+        return $this->biotipo;
+    }
+
+    function getFrequenciaSem() {
+        return $this->frequenciaSem;
+    }
+
+    function getCodigo() {
+        return $this->codigo;
+    }
+
+    function setNome($nome) {
+        $this->nome = $nome;
+    }
+
+    function setCpf($cpf) {
+        $this->cpf = $cpf;
+    }
+
+    function setDataNasc($dataNasc) {
+        $this->dataNasc = $dataNasc;
+    }
+
+    function setGenero($genero) {
+        $this->genero = $genero;
+    }
+
+    function setAltura($altura) {
+        $this->altura = $altura;
+    }
+
+    function setBiotipo($biotipo) {
+        $this->biotipo = $biotipo;
+    }
+
+    function setFrequenciaSem($frequenciaSem) {
+        $this->frequenciaSem = $frequenciaSem;
+    }
+
+    function setCodigo($codigo) {
+        $this->codigo = $codigo;
+    }
+
+    /* function getDados() {
+        return $this->dados;
+    }
+
+    protected function setDados($dados) {
+        $this->dados = $dados;
+    }
+
+    function getTermos() {
+        return $this->termos;
+    }
+
+    protected function setTermos($termos) {
+        $this->termos = $termos;
+    }
+
+    function getTabela() {
+        return self::tabela;
+    }
+
+    function getResultado() {
+        return $this->resultado;
+    }
+
+    function setResultado($resultado) {
+        foreach ($resultado as $valor) {
+            $nome[] = $valor['nome'];
+            $cpf[] = $valor['cpf'];
+            $dataNasc[] = $valor['dataNasc'];
+            $genero[] = $valor['genero'];
+            $altura[] = $valor['altura'];
+            $biotipo[] = $valor['biotipo'];
+            $frequenciaSem[] = $valor['frequenciaSem'];
+            $codigo[] = $valor['codigo'];
+        }
+        $aluno = new aluno();
+        $aluno->setNome($nome);
+        $aluno->setCpf($cpf);
+        $aluno->setDataNasc($dataNasc);
+        $aluno->setGenero($genero);
+        $aluno->setAltura($altura);
+        $aluno->setBiotipo($biotipo);
+        $aluno->setFrequenciaSem($frequenciaSem);
+        $aluno->setCodigo($codigo);
+        return $aluno;
+    }
+
+    function popularDadosInserir() {
+        $dados = ['nome' => $this->getNome(),
+            'cpf' => $this->getCpf(),
+            'dataNasc' => $this->getDataNasc(),
+            'genero' => $this->getGenero(),
+            'altura' => $this->getAltura(),
+            'biotipo' => $this->getBiotipo(),
+            'frequenciaSem' => $this->getFrequenciaSem(),
+            'codigo' => $this->getCodigo()];
+        $this->setDados($dados);
+    }
+
+    function popularDadosBuscar() {
+        $api = new ReflectionObject($this);
+        $i = 0;
+        foreach ($api->getProperties() as $property) {
+            $prop = $property->getName();
+            if (!empty($this->$prop)) {
+                if ($i == 0) {
+                    $termos = 'WHERE ' . $prop . ' like :' . $prop;
+                    $dados = $prop . '=' . $this->$prop;
+                } else {
+                    $termos .= ' AND ' . $prop . ' like :' . $prop;
+                    $dados .= ',' . $prop . '=' . $this->$prop;
+                }
+                $i++;
+            }
+        }
+        $this->setTermos($termos);
+        $this->setDados($dados);
+    } */
+    /*
     function cadastrarAluno($nome, $cpf, $dataNasc, $genero, $altura, $biotipo, $frequenciaSem, $codigo) {
         $this->nome = $nome;
         $this->cpf = $cpf;
@@ -112,5 +255,14 @@ class aluno {
             }
         }
     }
-
+    */
 }
+
+/*
+$aluno = new aluno();
+$aluno->setAltura(1.50);
+$api = new ReflectionObject($aluno);
+foreach ($api->getProperties() as $property) {
+    $prop = $property->getName(); 
+    echo $aluno->$prop;
+}*/

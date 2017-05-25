@@ -6,21 +6,23 @@
  * and open the template in the editor.
  */
 
-class delete extends conexao {
+class update extends conexao {
 
     private $tabela;
+    private $dados;
     private $termos;
     private $places;
-    private $delete;
+    private $update;
     private $conexao;
     private $query;
 
-    public function doDelete($tabela, $termos, $dados) {
+    public function doUpdate($tabela, array $dados, $termos = null, $condicao = null) {
         $this->tabela = $tabela;
+        $this->dados = $dados;
         $this->termos = $termos;
-        parse_str($dados, $this->places);
+        parse_str($condicao, $this->places);
         $this->getSintaxe();
-        $this->executar();
+        return $this->executar();
     }
 
     private function conectando() {
@@ -28,14 +30,19 @@ class delete extends conexao {
     }
 
     private function getSintaxe() {
-        $this->query = 'DELETE FROM ' . $this->tabela . ' ' . $this->termos;
+        foreach ($this->dados as $indice => $valores) {
+            $local[] = $indice . '=:' . $indice;
+        }
+        $local = implode(', ', $local);
+
+        $this->query = 'UPDATE ' . $this->tabela . ' SET ' . $local . ' ' . $this->termos;
     }
 
     private function executar() {
         try {
             $this->conectando();
-            $this->delete = $this->conexao->prepare($this->query);
-            $this->delete->execute($this->places);
+            $this->update = $this->conexao->prepare($this->query);
+            return $this->update->execute(array_merge($this->dados, $this->places));
         } catch (PDOException $e) {
             echo 'Erro - ' . $e->getMessage();
         }

@@ -49,49 +49,53 @@ and open the template in the editor.
             <br>
             <?php
             if ($_POST) {
-                require_once './Class/conexao.class.php';
-                require_once './Class/insert.class.php';
-                require_once './Class/select.class.php';
-                require_once './Class/update.class.php';
-                require_once './Class/delete.class.php';
                 require_once './Class/aluno.class.php';
                 require_once './Class/instrutor.class.php';
                 require_once './Class/exerc_treino.class.php';
                 require_once './Class/treino.class.php';
+                require_once './Dao/dao.class.php';
                 $login = $_POST['login'];
                 $senha = $_POST['senha'];
-
-                $instrutor = new instrutor();
-                $instrutor->buscarInstrutor('login', $login);
-                $senha2 = $instrutor->__get('senha');
+                $erro = 0;
+                
+                $dao = new dao();
 
                 $aluno = new aluno();
-                $aluno->buscarAluno('codigo', $login);
-                $senha3 = $aluno->__get('dataNasc');
-                $nomeAluno = $aluno->__get('nome');
-                if (!empty($senha3[0])) {
-                    $divide = explode("-", $senha3[0]);
+                $aluno->setCodigo($login);
+                $aluno = $dao->buscarObjeto($aluno);
+                
+                $instrutor = new instrutor();
+                $instrutor->setLogin($login);
+                $instrutor = $dao->buscarObjeto($instrutor);
+
+                if ($aluno) {
+                    $divide = explode("-", $aluno[0]->getDataNasc());
                     $dia = $divide[2];
                     $mes = $divide[1];
                     $ano = $divide[0];
-                    $senha4 = $dia . $mes . $ano;
-                }
-                if (!empty($senha2) || !empty($senha3[0])) {
-                    $hash = $senha2;
+                    $senhaFormatada = $dia . $mes . $ano;
+                    if ($senha == $senhaFormatada) {
+                        session_start();
+                        $_SESSION['tipoUsuario'] = '2';
+                        $_SESSION['nomeAluno'] = $aluno[0]->getNome();
+                        header('location:verTreino.php');
+                    } else {
+                        $erro = 1;
+                    }
+                } else if ($instrutor) {
+                    $hash = $instrutor[0]->getSenha();
                     if (crypt($senha, $hash) === $hash) {
                         session_start();
                         $_SESSION['tipoUsuario'] = '1';
                         header('location:inicio.php');
-                    } else if (isset($senha4) && $senha == $senha4) {
-                        session_start();
-                        $_SESSION['tipoUsuario'] = '2';
-                        $_SESSION['nomeAluno'] = $nomeAluno[0];
-                        header('location:verTreino.php');
                     } else {
-                        echo '<div id="erro">Senha inválida</div>';
+                        $erro = 1;
                     }
                 } else {
                     echo '<div id="erro">Login e senha inválidos</div>';
+                }
+                if ($erro == 1) {
+                    echo '<div id="erro">Senha inválida</div>';
                 }
             }
             ?>

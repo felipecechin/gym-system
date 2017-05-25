@@ -1,14 +1,10 @@
 <?php
 require_once './functions.php';
-require_once './Class/conexao.class.php';
-require_once './Class/insert.class.php';
-require_once './Class/select.class.php';
-require_once './Class/update.class.php';
-require_once './Class/delete.class.php';
 require_once './Class/aluno.class.php';
 require_once './Class/instrutor.class.php';
 require_once './Class/exerc_treino.class.php';
 require_once './Class/treino.class.php';
+require_once './Dao/dao.class.php';
 protection();
 if (isset($_SESSION)) {
     if ($_SESSION['tipoUsuario'] == 2) {
@@ -99,7 +95,7 @@ if (isset($_SESSION)) {
                     </tr>
                 </table>
             </form>
-            <?php
+            <?php            
             if ($_POST) {
                 $nome = $_POST['nome'];
                 $cpf = $_POST['cpf'];
@@ -111,24 +107,31 @@ if (isset($_SESSION)) {
                 $frequencia = $_POST['frequencia'];
 
                 $aluno = new aluno();
-                $aluno->buscarAluno('codigo', $codigo);
-                $codigoBanco = $aluno->__get('codigo');
-                while (!empty($codigoBanco[0])) {
+                $aluno->setCodigo($codigo);
+
+                $dao = new dao();
+                $alunoBusca = $dao->buscarObjeto($aluno, ['codigo']);
+                while ($alunoBusca != false) {
                     $codigo = rand(100000, 999999);
-                    $aluno = new aluno();
-                    $aluno->buscarAluno('codigo', $codigo);
-                    $codigoBanco = $aluno->__get('codigo');
+                    $aluno->setCodigo($codigo);
+                    $alunoBusca = $dao->buscarObjeto($aluno, ['codigo']);
                 }
 
                 $divide = explode('/', $dataNasc);
                 $dia = $divide[0];
                 $mes = $divide[1];
                 $ano = $divide[2];
-                $dataNasc2 = $ano . '-' . $mes . '-' . $dia;
+                $dataNascFormatada = $ano . '-' . $mes . '-' . $dia;
 
-                $aluno = new aluno();
+                $aluno->setNome($nome);
+                $aluno->setCpf($cpf);
+                $aluno->setDataNasc($dataNascFormatada);
+                $aluno->setGenero($genero);
+                $aluno->setAltura($altura);
+                $aluno->setBiotipo($biotipo);
+                $aluno->setFrequenciaSem($frequencia);
 
-                if ($aluno->cadastrarAluno($nome, $cpf, $dataNasc2, $genero, $altura, $biotipo, $frequencia, $codigo)) {
+                if ($dao->salvarObjeto($aluno)) {
                     echo 'Aluno cadastrado com sucesso!';
                     echo '<br>';
                     echo 'O código do aluno cadastrado é <b>' . $codigo . '</b>.';
@@ -140,7 +143,7 @@ if (isset($_SESSION)) {
         </div>
         <br>
         <div class="div-cliente">
-            <div id="breadcrumbs">Cliente</div>
+            <div id="breadcrumbs">Clientes</div>
             <br>
             <div style="width: 1000px; padding-bottom: 20px;margin: auto;">
                 <table id="example" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px; text-align: center;">
@@ -159,37 +162,29 @@ if (isset($_SESSION)) {
                     <tbody>
                         <?php
                         $aluno = new aluno();
-                        $resultado = $aluno->buscarAluno('todos', null);
+                        $dao = new dao();
+                        $aluno = $dao->buscarTodosPorObjeto($aluno, 'ORDER BY nome ASC');
 
-                        $nome = $aluno->__get('nome');
-                        $cpf = $aluno->__get('cpf');
-                        $dataNasc = $aluno->__get('dataNasc');
-                        $genero = $aluno->__get('genero');
-                        $altura = $aluno->__get('altura');
-                        $biotipo = $aluno->__get('biotipo');
-                        $frequencia = $aluno->__get('frequenciaSem');
-                        $codigo = $aluno->__get('codigo');
-
-                        for ($i = 0; $i < count($nome); $i++) {
+                        foreach ($aluno as $alunoDados) {
                             ?>
                             <tr style="background-color: #D2DEEA !important;">
-                                <td style="border: 0.5px solid white !important;"><?php echo $nome[$i]; ?></td>
-                                <td style="border: 0.5px solid white !important;"><?php echo $cpf[$i]; ?></td>
-                                <td style="border: 0.5px solid white !important;"><?php echo ($genero[$i] == 'M') ? 'Masculino' : 'Feminino'; ?></td>
-                                <td style="border: 0.5px solid white !important;"><?php echo $biotipo[$i]; ?></td>
-                                <td style="border: 0.5px solid white !important;"><?php echo number_format($altura[$i], 2, '.', ','); ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo $alunoDados->getNome(); ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo $alunoDados->getCpf(); ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo ($alunoDados->getGenero() == 'M') ? 'Masculino' : 'Feminino'; ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo $alunoDados->getBiotipo() ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo number_format($alunoDados->getAltura(), 2, '.', ','); ?></td>
                                 <?php
-                                $divide = explode('-', $dataNasc[$i]);
+                                $divide = explode('-', $alunoDados->getDataNasc());
                                 $dia = $divide[2];
                                 $mes = $divide[1];
                                 $ano = $divide[0];
                                 $data = $dia . '/' . $mes . '/' . $ano;
                                 ?>
                                 <td style="border: 0.5px solid white !important;"><?php echo $data; ?></td>
-                                <td style="border: 0.5px solid white !important;"><?php echo $frequencia[$i]; ?></td>
+                                <td style="border: 0.5px solid white !important;"><?php echo $alunoDados->getFrequenciaSem(); ?></td>
                                 <td style="border: 0.5px solid white !important;">
-                                    <a href="inserirTreino.php?c=<?php echo $codigo[$i]; ?>"><img src="img/mais-icon.png" style="height: 20px;"></a>
-                                    <a href="verTreino.php?c=<?php echo $codigo[$i]; ?>"><img src="img/ver-icon.png" style="height: 25px;"></a>
+                                    <a href="inserirTreino.php?c=<?php echo $alunoDados->getCodigo(); ?>"><img src="img/mais-icon.png" style="height: 20px;"></a>
+                                    <a href="verTreino.php?c=<?php echo $alunoDados->getCodigo(); ?>"><img src="img/ver-icon.png" style="height: 25px;"></a>
                                 </td>
                             </tr>
                             <?php

@@ -22,77 +22,72 @@ class exerc_treino {
     private $equipamento;
     private $id;
 
-    function __get($prop) {
-        return $this->$prop;
+    function __get($name) {
+        return $this->$name;
     }
 
-    function adicionarExercTreino($exercicio, $treino, $series = null, $repeticoes = null, $carga = null, $tempo = null, $equipamento = null) {
+    function getExercicio() {
+        return $this->exercicio;
+    }
+
+    function getTreino() {
+        return $this->treino;
+    }
+
+    function getSeries() {
+        return $this->series;
+    }
+
+    function getRepeticoes() {
+        return $this->repeticoes;
+    }
+
+    function getCarga() {
+        return $this->carga;
+    }
+
+    function getTempo() {
+        return $this->tempo;
+    }
+
+    function getEquipamento() {
+        return $this->equipamento;
+    }
+
+    function getId() {
+        return $this->id;
+    }
+
+    function setExercicio($exercicio) {
         $this->exercicio = $exercicio;
+    }
+
+    function setTreino($treino) {
         $this->treino = $treino;
+    }
+
+    function setSeries($series) {
         $this->series = $series;
+    }
+
+    function setRepeticoes($repeticoes) {
         $this->repeticoes = $repeticoes;
+    }
+
+    function setCarga($carga) {
         $this->carga = $carga;
+    }
+
+    function setTempo($tempo) {
         $this->tempo = $tempo;
+    }
+
+    function setEquipamento($equipamento) {
         $this->equipamento = $equipamento;
-
-        $dados = ['exercicio' => $exercicio, 'treino' => $treino, 'series' => $series, 'repeticoes' => $repeticoes, 'carga' => $carga, 'tempo' => $tempo, 'equipamento' => $equipamento];
-        $insert = new insert();
-        $insert->doInsert('exerc_treino', $dados);
     }
 
-    function buscarExercTreino($tipo, $valor) {
-        switch ($tipo) {
-            case 'exercicio': {
-                    $termos = 'WHERE exercicio=:exercicio';
-                    $dados = 'exercicio=' . $valor;
-                    break;
-                }
-            case 'treino': {
-                    $termos = 'WHERE treino=:treino';
-                    $dados = 'treino=' . $valor;
-                    break;
-                }
-            case 'id': {
-                    $termos = 'WHERE id=:id';
-                    $dados = 'id=' . $valor;
-                    break;
-                }
-            default: {
-                    $query = $tipo;
-                    $dados = $valor;
-                    break;
-                }
-        }
-        $select = new select();
-        if (isset($query)) {
-            return $select->doSelectManual($query, $dados);
-        } else {
-            $resultado = $select->doSelect('exerc_treino', $termos, $dados);
-            foreach ($resultado as $valor) {
-                $this->exercicio[] = $valor['exercicio'];
-                $this->treino[] = $valor['treino'];
-                $this->series[] = $valor['series'];
-                $this->repeticoes[] = $valor['repeticoes'];
-                $this->carga[] = $valor['carga'];
-                $this->tempo[] = $valor['tempo'];
-                $this->equipamento[] = $valor['equipamento'];
-                $this->id[] = $valor['id'];
-            }
-        }
-    }
-
-    function excluirExercTreinoPorId($id) {
+    function setId($id) {
         $this->id = $id;
-
-        $delete = new delete();
-        $delete->doDelete('exerc_treino', 'WHERE id=:id', 'id=' . $id);
-    }
-
-    function excluirExercTreinoPorTreino($treino) {
-        $this->treino = $treino;
-
-        $delete = new delete();
-        $delete->doDelete('exerc_treino', 'WHERE treino=:treino', 'treino=' . $treino);
     }
 
 }

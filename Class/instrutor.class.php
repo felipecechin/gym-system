@@ -35,6 +35,4 @@ class instrutor {
     function setSenha($senha) {
         $this->senha = $senha;
     }
-
-
 }

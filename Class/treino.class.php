@@ -13,10 +13,6 @@ class treino {
     private $aluno;
     private $objetivo;
 
-    function __get($prop) {
-        return $this->$prop;
-    }
-
     function getNome() {
         return $this->nome;
     }

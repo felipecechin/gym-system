@@ -15,10 +15,6 @@ class instrutor {
 
     private $login;
     private $senha;
-
-    function __get($prop) {
-        return $this->$prop;
-    }
     
     function getLogin() {
         return $this->login;

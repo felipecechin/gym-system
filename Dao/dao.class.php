@@ -21,8 +21,9 @@ class dao {
         $dados = [];
         foreach ($reflectionObjeto->getProperties() as $property) {
             $prop = $property->getName();
-            if (!is_null($objeto->$prop)) {
-                $dados[$prop] = $objeto->$prop;
+            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get'.$prop);
+            if (!is_null($valorProp)) {
+                $dados[$prop] = $valorProp;
             } else {
                 $dados[$prop] = null;
             }
@@ -132,7 +133,8 @@ class dao {
                     $erro = 0;
                 }
             }
-            if ($erro == 0 && !is_null($objeto->$termo)) {
+            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get'.$termo);
+            if ($erro == 0 && !is_null($valorProp)) {
                 if ($i == 0) {
                     $termosRetorno = 'WHERE ' . $termo . '=:' . $termo;
                 } else {
@@ -160,11 +162,12 @@ class dao {
                     $erro = 0;
                 }
             }
-            if ($erro == 0 && !is_null($objeto->$termo)) {
+            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get'.$termo);
+            if ($erro == 0 && !is_null($valorProp)) {
                 if ($i == 0) {
-                    $dadosRetorno = $termo . '=' . $objeto->$termo;
+                    $dadosRetorno = $termo . '=' . $valorProp;
                 } else {
-                    $dadosRetorno .= '&' . $termo . '=' . $objeto->$termo;
+                    $dadosRetorno .= '&' . $termo . '=' . $valorProp;
                 }
                 $i++;
             }
@@ -174,6 +177,11 @@ class dao {
         } else {
             return $dadosRetorno;
         }
+    }
+
+    private function buscarGetObjeto($reflectionObjeto, $objeto, $nomeMetodo) {
+        $method = $reflectionObjeto->getMethod($nomeMetodo);
+        return $method->invoke($objeto);
     }
 
     private function criarObjetosBusca($result, $objeto) {

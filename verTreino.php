@@ -75,7 +75,7 @@ if ($_GET) {
                     die();
                 }
             } else {
-                echo '<p style="font-size: 16pt;">Treino de ' . $nomeAluno . '</p>';
+                echo '<p style="font-size: 16pt;">Treino(s) de ' . $nomeAluno . '</p>';
             }
             ?>
         </div>

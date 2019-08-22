@@ -22,10 +22,6 @@ class exerc_treino {
     private $equipamento;
     private $id;
 
-    function __get($name) {
-        return $this->$name;
-    }
-
     function getExercicio() {
         return $this->exercicio;
     }

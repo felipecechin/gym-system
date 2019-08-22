@@ -22,10 +22,6 @@ class aluno {
     private $frequenciaSem;
     private $codigo;
 
-    function __get($name) {
-        return $this->$name;
-    }
-
     function getNome() {
         return $this->nome;
     }

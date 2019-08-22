@@ -62,14 +62,14 @@ and open the template in the editor.
 
                 $aluno = new aluno();
                 $aluno->setCodigo($login);
-                $aluno = $dao->buscarObjeto($aluno);
+                $aluno = $dao->buscarObjetoUnico($aluno);
                 
                 $instrutor = new instrutor();
                 $instrutor->setLogin($login);
-                $instrutor = $dao->buscarObjeto($instrutor);
+                $instrutor = $dao->buscarObjetoUnico($instrutor);
 
                 if ($aluno) {
-                    $divide = explode("-", $aluno[0]->getDataNasc());
+                    $divide = explode("-", $aluno->getDataNasc());
                     $dia = $divide[2];
                     $mes = $divide[1];
                     $ano = $divide[0];
@@ -77,13 +77,13 @@ and open the template in the editor.
                     if ($senha == $senhaFormatada) {
                         session_start();
                         $_SESSION['tipoUsuario'] = '2';
-                        $_SESSION['nomeAluno'] = $aluno[0]->getNome();
+                        $_SESSION['nomeAluno'] = $aluno->getNome();
                         header('location:verTreino.php');
                     } else {
                         $erro = 1;
                     }
                 } else if ($instrutor) {
-                    $hash = $instrutor[0]->getSenha();
+                    $hash = $instrutor->getSenha();
                     if (crypt($senha, $hash) === $hash) {
                         session_start();
                         $_SESSION['tipoUsuario'] = '1';

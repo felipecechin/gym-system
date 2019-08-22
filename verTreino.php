@@ -51,16 +51,16 @@ if ($_GET) {
                 $aluno = new aluno();
                 $aluno->setCodigo($codigo);
                 $dao = new dao();
-                $aluno = $dao->buscarObjeto($aluno);
-                $nomeAluno = $aluno[0]->getNome();
-                $codigoAluno = $aluno[0]->getCodigo();
+                $aluno = $dao->buscarObjetoUnico($aluno);
+                $nomeAluno = $aluno->getNome();
+                $codigoAluno = $aluno->getCodigo();
             } else {
                 $aluno = new aluno();
                 $aluno->setNome($_SESSION['nomeAluno']);
                 $dao = new dao();
-                $aluno = $dao->buscarObjeto($aluno);
-                $nomeAluno = $aluno[0]->getNome();
-                $codigoAluno = $aluno[0]->getCodigo();
+                $aluno = $dao->buscarObjetoUnico($aluno);
+                $nomeAluno = $aluno->getNome();
+                $codigoAluno = $aluno->getCodigo();
             }
             $treino = new treino();
             $treino->setAluno($codigoAluno);
@@ -86,8 +86,14 @@ if ($_GET) {
                 <div id="breadcrumbs">
                     <?php
                     echo 'Treino ' . $treinoDados->getNome();
+                    if ($_SESSION['tipoUsuario'] == 1) {
                     ?>
-                    <a href="excluirTreino.php?i=<?php echo $treinoDados->getId(); ?>&c=<?php echo $codigoAluno; ?>" style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a></div>
+                        <a href="excluirTreino.php?i=<?php echo $treinoDados->getId(); ?>&c=<?php echo $codigoAluno; ?>"
+                           style="float: right;"><img src="img/excluir-icon.png" style="height: 20px;"></a>
+                    <?php
+                    }
+                    ?>
+                </div>
                 <br>
                 <div style="display: table; padding: 20px;margin: auto;">
                     <table id="treino" class="table table-striped display nowrap" cellspacing="0" style="padding-top: 20px; padding-bottom: 20px; border: 0px; text-align: center;">

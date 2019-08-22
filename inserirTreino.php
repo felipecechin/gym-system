@@ -111,8 +111,8 @@ if ($_GET) {
             $aluno = new aluno();
             $aluno->setCodigo($_SESSION['codigo']);
             $dao = new dao();
-            $aluno = $dao->buscarObjeto($aluno);
-            $nomeCliente = $aluno[0]->getNome();
+            $aluno = $dao->buscarObjetoUnico($aluno);
+            $nomeCliente = $aluno->getNome();
             
             $treino = new treino();
             $treino->setAluno($_SESSION['codigo']);

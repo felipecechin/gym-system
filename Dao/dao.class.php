@@ -76,6 +76,10 @@ class dao {
         }
     }
 
+    public function buscarObjetoUnico($objeto, $termos = []) {
+        return $this->buscarObjeto($objeto, $termos)[0];
+    }
+
     public function deletarObjeto($objeto, $termos = []) {
         if (!is_object($objeto)) {
             return false;
@@ -120,6 +124,7 @@ class dao {
         $i = 0;
         $erro = 1;
         $reflectionObjeto = new ReflectionObject($objeto);
+        $termosRetorno = '';
         foreach ($termos as $termo) {
             foreach ($reflectionObjeto->getProperties() as $property) {
                 $prop = $property->getName();
@@ -147,6 +152,7 @@ class dao {
         $i = 0;
         $erro = 1;
         $reflectionObjeto = new ReflectionObject($objeto);
+        $dadosRetorno = '';
         foreach ($termos as $termo) {
             foreach ($reflectionObjeto->getProperties() as $property) {
                 $prop = $property->getName();

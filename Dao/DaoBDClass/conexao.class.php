@@ -10,8 +10,8 @@
 class conexao {
 
     private static $host = 'localhost';
-    private static $user = 'root';
-    private static $pass = '';
+    private static $user = 'felipe';
+    private static $pass = '@Fikrip20';
     private static $bd = 'academia';
     private static $connect;
 

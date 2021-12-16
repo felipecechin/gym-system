@@ -21,7 +21,7 @@ class dao {
         $dados = [];
         foreach ($reflectionObjeto->getProperties() as $property) {
             $prop = $property->getName();
-            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get'.$prop);
+            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get' . $prop);
             if (!is_null($valorProp)) {
                 $dados[$prop] = $valorProp;
             } else {
@@ -133,7 +133,7 @@ class dao {
                     $erro = 0;
                 }
             }
-            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get'.$termo);
+            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get' . $termo);
             if ($erro == 0 && !is_null($valorProp)) {
                 if ($i == 0) {
                     $termosRetorno = 'WHERE ' . $termo . '=:' . $termo;
@@ -162,7 +162,7 @@ class dao {
                     $erro = 0;
                 }
             }
-            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get'.$termo);
+            $valorProp = $this->buscarGetObjeto($reflectionObjeto, $objeto, 'get' . $termo);
             if ($erro == 0 && !is_null($valorProp)) {
                 if ($i == 0) {
                     $dadosRetorno = $termo . '=' . $valorProp;

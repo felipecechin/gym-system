@@ -10,8 +10,8 @@
 class conexao {
 
     private static $host = 'localhost';
-    private static $user = 'felipe';
-    private static $pass = '@Fikrip20';
+    private static $user = 'root';
+    private static $pass = 'root';
     private static $bd = 'academia';
     private static $connect;
 
@@ -29,5 +29,5 @@ class conexao {
     public static function getConexao() {
         return self::conectar();
     }
-    
+
 }
